@@ -53,7 +53,40 @@ Beskrivning av programmet.
 - [ ] Spara Schemat som en iCalandar-fil (.ics).
   *  [Länk till iCalandar-spec](https://datatracker.ietf.org/doc/html/rfc5545)
 
+## Info om iCalendar formatet
+_Här kommer jag lägga till viktig/användbar information om iCalendar formatet allteftersom jag läser på om det_
 
-    
+<sub>Fungerande exempel från [Wikipedia](https://en.wikipedia.org/wiki/ICalendar)</sub>
+```
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+UID:uid1@example.com
+DTSTAMP:19970714T170000Z
+ORGANIZER;CN=John Doe:MAILTO:john.doe@example.com
+DTSTART:19970714T170000Z
+DTEND:19970715T040000Z
+SUMMARY:Bastille Day Party
+GEO:48.85299;2.36885
+END:VEVENT
+END:VCALENDAR
+```
+### Om UID:
+
+<sub>Hur man skapar en Uid enligt [RFC5545](https://datatracker.ietf.org/doc/html/rfc5545#page-117) standarden</sub>
+>The "UID" itself MUST be a globally unique identifier. The generator of the identifier MUST guarantee that the identifier is unique.
+>There are several algorithms that can be used to accomplish this.
+>
+>A good method to assure uniqueness is to put the domain name or a domain literal IP address of the host on which the identifier was created
+>on the right-hand side of an "@", and on the left-hand side, put a combination of the current calendar date and time of day
+>(i.e., formatted in as a DATE-TIME value) along with some other currently unique (perhaps sequential) identifier available on the system (for example, a process id number).
+>
+>Using a DATE-TIME value on the left-hand side and a domain name or domain literal on the right-hand side makes it possible to guarantee uniqueness
+>since no two hosts should be using the same domain name or IP address at the same time.
+>
+>Though other algorithms will work, it is RECOMMENDED that the right-hand side contain some domain identifier
+>(either of the host itself or otherwise) such that the generator of the message identifier can guarantee the uniqueness of the left-hand side within the scope of that domain.
+
     
     
