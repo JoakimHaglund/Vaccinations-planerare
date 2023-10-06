@@ -8,11 +8,53 @@ namespace Vaccination
 {
     public class Program
     {
+
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+            while (true)
+            {
+                int choice = ShowMenu("Vad vill du göra?", new List<string>
+                {
+                    "Skapa prioritetsordning",
+                    "Ändra antal vaccindoser",
+                    "Ändra åldersgräns",
+                    "Ändra indatafil",
+                    "Ändra utdatafil",
+                    "Avsluta"
+                });
+                //Skapa prioritetsordning
+                if (choice == 0)
+                {
 
-            Console.WriteLine("Hello!");
+                }
+                //Ändra antal vaccindoser
+                else if (choice == 1)
+                {
+
+                }
+                //Ändra åldersgräns
+                else if (choice == 2)
+                {
+
+                }
+                //Ändra indatafil
+                else if (choice == 3)
+                {
+
+                }
+                //Ändra utdatafil
+                else if (choice == 4)
+                {
+
+                }
+                //Avsluta
+                else
+                {
+                    break;
+                }
+                Console.Clear();
+            }
         }
 
         // Create the lines that should be saved to a CSV file after creating the vaccination order.
