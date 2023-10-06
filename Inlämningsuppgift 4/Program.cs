@@ -114,7 +114,7 @@ namespace Vaccination
                 //Ändra antal vaccindoser
                 else if (choice == 1)
                 {
-
+                    ChangeVaccinationDoses();
                 }
                 //Ändra åldersgräns
                 else if (choice == 2)
@@ -139,6 +139,10 @@ namespace Vaccination
                 Console.Clear();
             }
         }
+
+
+        public static bool ChangeVaccinationDoses();
+
 
         public static bool ChangeVaccinationSetting()
         {
