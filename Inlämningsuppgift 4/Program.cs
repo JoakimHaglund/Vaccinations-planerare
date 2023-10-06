@@ -1,9 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Vaccination
 {
@@ -37,6 +36,7 @@ namespace Vaccination
             string path = VadlidateInput.ReadPath();
             return path;
         }
+
     }
     public class PersonalInformation
     {
@@ -52,11 +52,11 @@ namespace Vaccination
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-            string PathIn;
-            string PathOut;
+            string PathIn = "Indata.txt";
+            string PathOut = "Utdata.txt";
 
-            bool VaccinateMinors;
-            int AvailableVaccineDoses;
+            bool VaccinateMinors = false;
+            int AvailableVaccineDoses = 0;
 
             while (true)
             {
@@ -64,7 +64,7 @@ namespace Vaccination
                 Console.WriteLine("Huvudmeny");
                 Console.WriteLine("---------");
                 Console.WriteLine("Antal tillgängliga vaccindoser: " + AvailableVaccineDoses);
-                Console.WriteLine("Vaccinering under 18 år: " + VaccinateMinors);
+                Console.WriteLine("Vaccinering under 18 år: " + (VaccinateMinors ? "Ja" : "Nej"));
                 Console.WriteLine("Indatafil: " + PathIn);
                 Console.WriteLine("Utdatafil: " + PathOut);
 
