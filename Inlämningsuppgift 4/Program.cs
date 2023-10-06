@@ -1,10 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-
-namespace Vaccination
+﻿namespace Vaccination
 {
     public class VadlidateInput
     {
@@ -42,7 +36,13 @@ namespace Vaccination
 
             while (true)
             {
-                //add info 
+
+                Console.WriteLine("Huvudmeny");
+                Console.WriteLine("---------");
+                Console.WriteLine("Antal tillgängliga vaccindoser: " + AvailableVaccineDoses);
+                Console.WriteLine("Vaccinering under 18 år: " + VaccinateMinors);
+                Console.WriteLine("Indatafil: " + PathIn);
+                Console.WriteLine("Utdatafil: " + PathOut);
 
 
                 int choice = ShowMenu("Vad vill du göra?", new List<string>
