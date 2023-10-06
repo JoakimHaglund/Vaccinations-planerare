@@ -8,11 +8,17 @@ namespace Vaccination
 {
     public class VadlidateInput
     {
+        public static string ReadPath()
+        {
 
+        }
     }
     public class FileIo
     {
-       
+        public string ChangePath()
+        {
+            string path = VadlidateInput.ReadPath();
+        }
     }
     public class PersonalInformation
     {
@@ -30,6 +36,8 @@ namespace Vaccination
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             while (true)
             {
+                //add info 
+
                 int choice = ShowMenu("Vad vill du göra?", new List<string>
                 {
                     "Skapa prioritetsordning",
