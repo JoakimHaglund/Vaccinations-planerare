@@ -57,7 +57,7 @@ namespace Vaccination
         {
             while (true)
             {
-                string file = VadlidateInput.ReadString($"Enter fileName: {Directory}") + ".csv";
+                string file = ValidateInput.ReadString($"Enter fileName: {Directory}") + ".csv";
                 string path = Directory + file;
                 if (File.Exists(path))
                 {
@@ -88,13 +88,13 @@ namespace Vaccination
                 }
             }
         }
-        public List<string> ReadCsvFile()
+        public List<string> ReadCsvFile(string path)
         {
             while (true)
             {
                 try
                 {
-                    List<string> list = File.ReadAllLines(PathIn).ToList();
+                    List<string> list = File.ReadAllLines(path).ToList();
                     return list;
                 }
                 catch (DirectoryNotFoundException)
