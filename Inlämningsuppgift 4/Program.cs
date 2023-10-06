@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Vaccination
@@ -62,6 +63,32 @@ namespace Vaccination
         {
             string path = VadlidateInput.ReadPath();
             return path;
+        }
+        public List<string> ReadCsvFile()
+        {
+            while (true)
+            {
+                try
+                {
+                    List<string> list = File.ReadAllLines(PathIn).ToList();
+                    return list;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    Console.WriteLine("ERROR: Directory not found!");
+                    break;
+                }
+                catch (FileNotFoundException)
+                {
+                    Console.WriteLine("ERROR: File not found!");
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine("Error in file read");
+                    break;
+                }
+            }
         }
 
 
