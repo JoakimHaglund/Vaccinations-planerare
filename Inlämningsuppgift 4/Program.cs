@@ -6,9 +6,25 @@ using System.Linq;
 
 namespace Vaccination
 {
-    public class Program
+    public class VadlidateInput
     {
 
+    }
+    public class FileIo
+    {
+       
+    }
+    public class PersonalInformation
+    {
+        public string FirstName;
+        public string Lastname;
+        public int Personnummer;
+        public bool HealthcareWorker;
+        public bool RiskGroup;
+        public bool HasBeenInfected;
+    }
+    public class Program
+    {
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
