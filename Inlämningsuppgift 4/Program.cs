@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 
 namespace Vaccination
 {
@@ -32,18 +34,53 @@ namespace Vaccination
                 }
             }
         }
-        public static string ReadPath()
+        public static string ReadString(string question)
+        {
+            while (true)
+            {
+                Console.Write(question + " ");
+                try
+                {
+                    string value = Console.ReadLine();
+                    return value;
+                }
+                catch 
+                {
+                    Console.WriteLine("Invalid value!");
+                }
+            }
+        }
+    }
+    public class FileIo
+    {
+        public static string Directory = @"C:\Windows\Temp\";
+        public static string ChangeFile()
+        {
+            while (true)
+            {
+                string file = VadlidateInput.ReadString($"Enter fileName: {Directory}") + ".csv";
+                string path = Directory + file;
+                if (File.Exists(path))
+                {
+                    return path;
+                }
+                else 
+                {
+                    Console.WriteLine("File does not exist!");
+                }
+                
+            }
+        }
+        public static string ChangeDirectory()
         {
             while (true)
             {
                 try
                 {
-
                     string enviromentPath = @"C:\Windows\Temp\";
                     Console.Write("Enter fileName: ");
                     string file = Console.ReadLine() + ".csv";
                     string path = enviromentPath + file;
-
                     return path;
                 }
                 catch
@@ -51,18 +88,6 @@ namespace Vaccination
                     Console.WriteLine("Invalid file name!");
                 }
             }
-
-
-        }
-    }
-    public class FileIo
-    {
-        public string PathIn = @"C:\Windows\Temp\People.csv";
-        public string PathOut = @"C:\Windows\Temp\Vaccinations.csv";
-        public string ChangePath()
-        {
-            string path = VadlidateInput.ReadPath();
-            return path;
         }
         public List<string> ReadCsvFile()
         {
@@ -110,7 +135,7 @@ namespace Vaccination
             string PathIn = @"C:\Windows\Temp\People.csv";
             string PathOut = @"C:\Windows\Temp\Vaccinations.csv";
 
-            bool VaccinateMinors = ChangeVaccinationSetting;
+            bool VaccinateMinors = false;
             int AvailableVaccineDoses = 0;
             int k = VadlidateInput.ReadInt("int:");
             while (true)
@@ -136,7 +161,7 @@ namespace Vaccination
                 //Skapa prioritetsordning
                 if (choice == 0)
                 {
-
+                    
                 }
                 //Ändra antal vaccindoser
                 else if (choice == 1)
@@ -176,13 +201,13 @@ namespace Vaccination
             bool newSetting = AskForVaccinationSetting();
             Console.WriteLine("Inställningen har ändrats till: " + (newSetting ? "Ja" : "Nej"));
             return newSetting;
-
+            
         }
 
         public static bool AskForVaccinationSetting()
         {
             List<string> options = new List<string> { "Ja", "Nej" };
-            string int input = ShowMenu("Ska personer under 18 år vaccineras? (Ja/Nej)", options);
+            int input = ShowMenu("Ska personer under 18 år vaccineras? (Ja/Nej)", options);
 
             if (input == 0)
             {
