@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.IO;
 
 namespace Vaccination
 {
@@ -10,14 +11,22 @@ namespace Vaccination
     {
         public static string ReadPath()
         {
-            try
+            while (true)
             {
-                string path = Console.ReadLine();
+                try
+                {
+                    string enviromentPath = @"C:\Windows\Temp\";
+                    Console.Write("Enter fileName: ");
+                    string file = Console.ReadLine() + ".csv";
+                    string path = enviromentPath + file;
+                    return path;
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid file name!");
+                }
             }
-            catch 
-            {
-                
-            }
+            
             
         }
     }
@@ -26,6 +35,7 @@ namespace Vaccination
         public string ChangePath()
         {
             string path = VadlidateInput.ReadPath();
+            return path;
         }
     }
     public class PersonalInformation
