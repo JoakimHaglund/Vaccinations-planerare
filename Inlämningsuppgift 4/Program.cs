@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,16 +9,41 @@ namespace Vaccination
 {
     public class VadlidateInput
     {
+        public static int ReadInt(string question)
+        {
+            while (true)
+            {
+                Console.Write(question + " ");
+                try
+                {
+                    int? value = int.Parse(Console.ReadLine());
+                }
+                catch (OverflowException)
+                {
+                    Console.WriteLine("Value out of range!");
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Value has the wrong format!");
+                }
+                catch 
+                {
+                    Console.WriteLine("Invalid value!");
+                }
+            }
+        }
         public static string ReadPath()
         {
             while (true)
             {
                 try
                 {
+                    
                     string enviromentPath = @"C:\Windows\Temp\";
                     Console.Write("Enter fileName: ");
                     string file = Console.ReadLine() + ".csv";
                     string path = enviromentPath + file;
+                    
                     return path;
                 }
                 catch
@@ -31,11 +57,14 @@ namespace Vaccination
     }
     public class FileIo
     {
+        public string PathIn = @"C:\Windows\Temp\People.csv";
+        public string PathOut = @"C:\Windows\Temp\Vaccinations.csv";
         public string ChangePath()
         {
             string path = VadlidateInput.ReadPath();
             return path;
         }
+
 
     }
     public class PersonalInformation
@@ -52,12 +81,12 @@ namespace Vaccination
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-            string PathIn = "Indata.txt";
-            string PathOut = "Utdata.txt";
-
+            string PathIn = @"C:\Windows\Temp\People.csv";
+            string PathOut = @"C:\Windows\Temp\Vaccinations.csv";
+            
             bool VaccinateMinors = false;
             int AvailableVaccineDoses = 0;
-
+            int k = VadlidateInput.ReadInt("int:");
             while (true)
             {
 
