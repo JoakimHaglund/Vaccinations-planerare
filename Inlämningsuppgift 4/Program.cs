@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Vaccination
 {
@@ -10,7 +11,15 @@ namespace Vaccination
     {
         public static string ReadPath()
         {
-
+            try
+            {
+                string path = Console.ReadLine();
+            }
+            catch 
+            {
+                
+            }
+            
         }
     }
     public class FileIo
@@ -43,7 +52,9 @@ namespace Vaccination
             while (true)
             {
                 //add info 
-
+                /*
+                 
+                 */
 
                 int choice = ShowMenu("Vad vill du göra?", new List<string>
                 {
