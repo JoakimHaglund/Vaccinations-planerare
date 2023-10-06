@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Vaccination
 {
-    public class VadlidateInput
+    public class ValidateInput
     {
         public static int ReadInt(string question)
         {
