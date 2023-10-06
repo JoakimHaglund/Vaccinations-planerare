@@ -34,9 +34,16 @@ namespace Vaccination
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+            string PathIn;
+            string PathOut;
+
+            bool VaccinateMinors;
+            int AvailableVaccineDoses;
+
             while (true)
             {
                 //add info 
+
 
                 int choice = ShowMenu("Vad vill du göra?", new List<string>
                 {
