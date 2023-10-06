@@ -5,6 +5,7 @@
     <RootNamespace>Inlämningsuppgift_4</RootNamespace>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
+    <BaseOutputPath>C:\Users\Jennifer\source\repos\JoakimHaglund\Inl-mningsuppgift-4\Inlämningsuppgift 4\bin\Debug\net6.0</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

@@ -25,8 +25,8 @@ namespace Vaccination
                     Console.WriteLine("Invalid file name!");
                 }
             }
-            
-            
+
+
         }
     }
     public class FileIo
@@ -91,7 +91,7 @@ namespace Vaccination
                 //Ändra åldersgräns
                 else if (choice == 2)
                 {
-
+                    ChangeVaccinationSetting();
                 }
                 //Ändra indatafil
                 else if (choice == 3)
@@ -112,6 +112,27 @@ namespace Vaccination
             }
         }
 
+        public static void ChangeVaccinationSetting()
+        {
+            bool newSetting = AskForVaccinationSetting();
+            VaccinateMinors = newSetting;
+            Console.WriteLine("Inställningen har ändrats till: " + (newSetting ? "Ja" : "Nej"));
+
+        }
+
+        public static bool AskForVaccinationSetting()
+        {
+            Console.WriteLine("Ska personer under 18 år vaccineras? (Ja/Nej)");
+            string input = Console.ReadLine().Trim().ToLower();
+            if (input == "ja")
+            {
+                return true;
+            }
+            if (input == "nej")
+            {
+                return false;
+            }
+        }
         // Create the lines that should be saved to a CSV file after creating the vaccination order.
         //
         // Parameters:
