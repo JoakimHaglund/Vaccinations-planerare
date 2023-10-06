@@ -136,7 +136,6 @@ namespace Vaccination
 
             bool VaccinateMinors = false;
             int AvailableVaccineDoses = 0;
-            int k = VadlidateInput.ReadInt("int:");
             while (true)
             {
 
