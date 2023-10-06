@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
@@ -192,8 +191,14 @@ namespace Vaccination
             }
         }
 
+        public static void ChangeVaccinationDoses()
+        {
+            Console.WriteLine("Ändra antal vaccindoser");
+            Console.WriteLine("-----------------------");
+            int vaccinationDoses = ValidateInput.ReadInt("Ange nytt antal doser: ");
+            Console.WriteLine($"Du angav vaccinationDoser: {vaccinationDoses}");
 
-        public static bool ChangeVaccinationDoses();
+        }
 
 
         public static bool ChangeVaccinationSetting()
