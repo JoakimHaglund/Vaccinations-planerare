@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Vaccination
@@ -110,7 +109,7 @@ namespace Vaccination
             string PathIn = @"C:\Windows\Temp\People.csv";
             string PathOut = @"C:\Windows\Temp\Vaccinations.csv";
 
-            bool VaccinateMinors = ChangeVaccinationSetting;
+            bool VaccinateMinors = false;
             int AvailableVaccineDoses = 0;
             int k = VadlidateInput.ReadInt("int:");
             while (true)
@@ -167,8 +166,14 @@ namespace Vaccination
             }
         }
 
+        public static void ChangeVaccinationDoses()
+        {
+            Console.WriteLine("Ändra antal vaccindoser");
+            Console.WriteLine("-----------------------");
+            int vaccinationDoses = ValidateInput.ReadInt("Ange nytt antal doser: ");
+            Console.WriteLine($"Du angav vaccinationDoser: {vaccinationDoses}");
 
-        public static bool ChangeVaccinationDoses();
+        }
 
 
         public static bool ChangeVaccinationSetting()
@@ -182,7 +187,7 @@ namespace Vaccination
         public static bool AskForVaccinationSetting()
         {
             List<string> options = new List<string> { "Ja", "Nej" };
-            string int input = ShowMenu("Ska personer under 18 år vaccineras? (Ja/Nej)", options);
+            int input = ShowMenu("Ska personer under 18 år vaccineras? (Ja/Nej)", options);
 
             if (input == 0)
             {
