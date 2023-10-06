@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -26,7 +25,7 @@ namespace Vaccination
                 {
                     Console.WriteLine("Value has the wrong format!");
                 }
-                catch 
+                catch
                 {
                     Console.WriteLine("Invalid value!");
                 }
@@ -38,12 +37,12 @@ namespace Vaccination
             {
                 try
                 {
-                    
+
                     string enviromentPath = @"C:\Windows\Temp\";
                     Console.Write("Enter fileName: ");
                     string file = Console.ReadLine() + ".csv";
                     string path = enviromentPath + file;
-                    
+
                     return path;
                 }
                 catch
@@ -83,8 +82,8 @@ namespace Vaccination
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             string PathIn = @"C:\Windows\Temp\People.csv";
             string PathOut = @"C:\Windows\Temp\Vaccinations.csv";
-            
-            bool VaccinateMinors = false;
+
+            bool VaccinateMinors = ChangeVaccinationSetting;
             int AvailableVaccineDoses = 0;
             int k = VadlidateInput.ReadInt("int:");
             while (true)
@@ -141,26 +140,28 @@ namespace Vaccination
             }
         }
 
-        public static void ChangeVaccinationSetting()
+        public static bool ChangeVaccinationSetting()
         {
             bool newSetting = AskForVaccinationSetting();
-            VaccinateMinors = newSetting;
             Console.WriteLine("Inställningen har ändrats till: " + (newSetting ? "Ja" : "Nej"));
+            return newSetting;
 
         }
 
         public static bool AskForVaccinationSetting()
         {
-            Console.WriteLine("Ska personer under 18 år vaccineras? (Ja/Nej)");
-            string input = Console.ReadLine().Trim().ToLower();
-            if (input == "ja")
+            List<string> options = new List<string> { "Ja", "Nej" };
+            string int input = ShowMenu("Ska personer under 18 år vaccineras? (Ja/Nej)", options);
+
+            if (input == 0)
             {
                 return true;
             }
-            if (input == "nej")
+            else
             {
                 return false;
             }
+
         }
         // Create the lines that should be saved to a CSV file after creating the vaccination order.
         //
