@@ -88,7 +88,7 @@ namespace Vaccination
                 }
             }
         }
-        public List<string> ReadCsvFile(string path)
+        /*public List<string> ReadCsvFile(string path)
         {
             while (true)
             {
@@ -112,7 +112,7 @@ namespace Vaccination
                     Console.WriteLine("Error in file read");
                     break;
                 }
-            }
+            }*/
         }
 
 
