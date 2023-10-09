@@ -112,8 +112,8 @@ namespace Vaccination
                     Console.WriteLine("Error in file read");
                     break;
                 }
-            }*/
-        }
+            }
+        }*/
 
 
     }
