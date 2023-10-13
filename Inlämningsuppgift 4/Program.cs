@@ -93,33 +93,42 @@ namespace Vaccination
                 }
             }
         }
-        /*public List<string> ReadCsvFile(string path)
+        public List<string> ReadFile(string path)
         {
-            while (true)
+            try
             {
-                try
-                {
-                    List<string> list = File.ReadAllLines(path).ToList();
-                    return list;
-                }
-                catch (DirectoryNotFoundException)
-                {
-                    Console.WriteLine("ERROR: Directory not found!");
-                    break;
-                }
-                catch (FileNotFoundException)
-                {
-                    Console.WriteLine("ERROR: File not found!");
-                    break;
-                }
-                catch
-                {
-                    Console.WriteLine("Error in file read");
-                    break;
-                }
+                List<string> list = File.ReadAllLines(path).ToList();
+                return list;
             }
-        }*/
-
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("ERROR: Directory not found!");
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("ERROR: File not found!");
+            }
+            catch
+            {
+                Console.WriteLine("Error in file read");
+            }
+            return null;
+        }
+        public void WriteFile(string path, List<string> lines)
+        {
+            try
+            {
+                File.WriteAllLines(path, lines);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("ERROR: Directory not found!");
+            }
+            catch
+            {
+                Console.WriteLine("Error in file write");
+            }
+        }
 
     }
     public class Patient
