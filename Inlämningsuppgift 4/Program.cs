@@ -182,7 +182,7 @@ namespace Vaccination
         }
         public bool ParseToBool(string input)
         {
-
+            return input == "1" ? true : false;
         }
         public List<string> ParseToList(string input)
         {
