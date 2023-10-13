@@ -205,7 +205,7 @@ namespace Vaccination
 
             return personnummer;
         }
-            public bool ParseToBool(string input)
+        public bool ParseToBool(string input)
         {
             return input == "1" ? true : false;
         }
@@ -328,6 +328,20 @@ namespace Vaccination
         // vaccinateChildren: whether to vaccinate people younger than 18
         public static string[] CreateVaccinationOrder(string[] input, int doses, bool vaccinateChildren)
         {
+            List<string> vaccinationOrder = new List<string>();
+
+            foreach (var person in sortedPopulation)
+            {
+                if (person.Age < 18 && !vaccinateChildren)
+                {
+
+                }
+
+                if (person.HasBeenInfected)
+                {
+
+                }
+            }
             // Replace with your own code.
             //create list of patient objects
             //use patient list to create vaccine order
