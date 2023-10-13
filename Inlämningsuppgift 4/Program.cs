@@ -159,8 +159,8 @@ namespace Vaccination
                     Personnummer = personnummer,
                     FirstName = firstName,
                     Lastname = lastName,
-                    HealthcareWorker = healthcareWorker,
-                    RiskGroup = riskGroup,
+                    HealthcareWorker = ParseToBool(healthcareWorker),
+                    RiskGroup = ParseToBool(riskGroup),
                     HasBeenInfected = ParseToBool(hasBeenInfected)
                 };
             }
