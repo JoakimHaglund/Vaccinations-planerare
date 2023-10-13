@@ -157,7 +157,7 @@ namespace Vaccination
         public bool RiskGroup;
         public bool HasBeenInfected;
 
-        public static Patient AddPerson(string input)
+        public Patient AddPerson(string input)
         {
             List<string> elements = ParseToList(input);
 
@@ -190,15 +190,15 @@ namespace Vaccination
             //ParseToBool() - på 3 sista elementen av listan
             //skapa sedan ett nytt Patient
         }
-        public static int ParseDate(string date)
+        public int ParseDate(string date)
         {
 
         }
-        public static bool ParseToBool(string input)
+        public bool ParseToBool(string input)
         {
 
         }
-        public static List<string> ParseToList(string input)
+        public List<string> ParseToList(string input)
         {
 
             string[] elements = input.Split(',');
