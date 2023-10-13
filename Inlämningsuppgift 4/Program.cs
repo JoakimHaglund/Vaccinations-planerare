@@ -148,7 +148,7 @@ namespace Vaccination
 
 
     }
-    public class PersonalInformation
+    public class Patient
     {
         public string FirstName;
         public string Lastname;
@@ -157,7 +157,7 @@ namespace Vaccination
         public bool RiskGroup;
         public bool HasBeenInfected;
 
-        public PersonalInformation AddPerson()
+        public Patient AddPerson()
         {
             //Konventera till PersonalInformation objekt
             //parse to list - ta in en string och spotta ut en lista
