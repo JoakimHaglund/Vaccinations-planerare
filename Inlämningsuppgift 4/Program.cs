@@ -60,8 +60,8 @@ namespace Vaccination
                 Console.Write("Enter fileName: ");
                 string path = Console.ReadLine();
                 int last = path.LastIndexOf('\\');
-                string dirPath;
-                if (last == -1)
+                string dirPath = "";
+                if (last != -1)
                 {
                     dirPath = path.Substring(0, last);
                 }
@@ -69,7 +69,7 @@ namespace Vaccination
                 {
                     Console.WriteLine("Felaktig filsökväg!");
                 }
-                if (Directory.Exists(path))
+                if (Directory.Exists(dirPath))
                 {
                     if (checkFileExist)
                     {
@@ -93,7 +93,7 @@ namespace Vaccination
                 }
             }
         }
-        public List<string> ReadFile(string path)
+        public static List<string> ReadFile(string path)
         {
             try
             {
@@ -114,11 +114,12 @@ namespace Vaccination
             }
             return null;
         }
-        public void WriteFile(string path, List<string> lines)
+        public static void WriteFile(string path, List<string> lines)
         {
             try
             {
                 File.WriteAllLines(path, lines);
+                Console.WriteLine("Files Saved to: " + path);
             }
             catch (DirectoryNotFoundException)
             {
@@ -213,7 +214,8 @@ namespace Vaccination
                 //Skapa prioritetsordning
                 if (choice == 0)
                 {
-
+                    List<string> k = FileIo.ReadFile(PathIn);
+                    FileIo.WriteFile(PathOut, k);
                 }
                 //Ändra antal vaccindoser
                 else if (choice == 1)
