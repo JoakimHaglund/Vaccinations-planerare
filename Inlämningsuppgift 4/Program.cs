@@ -141,18 +141,18 @@ namespace Vaccination
         public bool RiskGroup;
         public bool HasBeenInfected;
 
- /*       public Patient AddPerson(string input)
+        public Patient AddPerson(string input)
         {
             List<string> elements = ParseToList(input);
 
             if (elements != null && elements.Count == 6)
             {
-                string FirstName = elements[0];
-                string LastName = elements[1];
-                string Personnummer = elements[2];
-                string HealthCareWorker = elements[3];
-                string RiskGroup = elements[4];
-                string HasBeenInfected = elements[5];
+                string firstName = elements[0];
+                string lastName = elements[1];
+                string personnummer = elements[2];
+                string healthCareWorker = elements[3];
+                string riskGroup = elements[4];
+                string hasBeenInfected = elements[5];
 
                 return new Patient
                 {
@@ -176,12 +176,14 @@ namespace Vaccination
         }
         public int ParseDate(string date)
         {
-
+            //Needs to check year string lenght - if 10 chars -> add year
+            //if there's no '-' for last four digits then we need to handle that
+            //perhaps return as list so we can seperate the birth date and last 4 digits
         }
         public bool ParseToBool(string input)
         {
 
-        }*/
+        }
         public List<string> ParseToList(string input)
         {
 
@@ -302,6 +304,10 @@ namespace Vaccination
         public static string[] CreateVaccinationOrder(string[] input, int doses, bool vaccinateChildren)
         {
             // Replace with your own code.
+            //create list of patient objects
+            //use patient list to create vaccine order
+            // turn it into a list of csv strings
+
             return new string[0];
         }
 
