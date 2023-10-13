@@ -89,7 +89,7 @@ namespace Vaccination
                 }
             }
         }
-        public static string ReadFilePath(bool checkFileExist, string format)
+        public static string ReadFilePath(bool checkFileExist = true)
         {
             while (true)
             {
@@ -103,11 +103,19 @@ namespace Vaccination
                         {
                             return path;
                         }
+                        else
+                        {
+                            Console.WriteLine("Filen finns inte!");
+                        }
                     }
                     else
                     {
                         return path;
                     }
+                }
+                else
+                {
+                    Console.WriteLine("Mappen finns inte");
                 }
             }
         }
@@ -148,6 +156,28 @@ namespace Vaccination
         public bool HealthcareWorker;
         public bool RiskGroup;
         public bool HasBeenInfected;
+
+        public PersonalInformation AddPerson()
+        {
+            //Konventera till PersonalInformation objekt
+            //parse to list - ta in en string och spotta ut en lista
+            //ParseDate() - på första elementert av listan
+            //ParseToBool() - på 3 sista elementen av listan
+            //skapa sedan ett nytt PersonalInformation
+        }
+        public DateOnly ParseDate(string date)
+        {
+
+        }
+        public bool ParseToBool(string input)
+        {
+
+        }
+        public List<string> ParseToList(string input)
+        {
+            //parsa rad av input till lista (string split)
+            //om den nya listan inehåller mindre än 6 element retuneras inget och ger felmedelande
+        }
     }
     public class Program
     {
@@ -197,12 +227,12 @@ namespace Vaccination
                 //Ändra indatafil
                 else if (choice == 3)
                 {
-                    PathIn = FileIo.ChangeDirectory();
+                    PathIn = FileIo.ReadFilePath();
                 }
                 //Ändra utdatafil
                 else if (choice == 4)
                 {
-                    PathOut = FileIo.ChangeDirectory();
+                    PathOut = FileIo.ReadFilePath(false);
                 }
                 //Avsluta
                 else
