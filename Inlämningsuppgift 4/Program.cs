@@ -157,13 +157,13 @@ namespace Vaccination
         public bool RiskGroup;
         public bool HasBeenInfected;
 
-        public Patient AddPerson()
+        public Patient AddPerson(string input)
         {
-            //Konventera till PersonalInformation objekt
+            //Konventera till Patient objekt
             //parse to list - ta in en string och spotta ut en lista
             //ParseDate() - på första elementert av listan
             //ParseToBool() - på 3 sista elementen av listan
-            //skapa sedan ett nytt PersonalInformation
+            //skapa sedan ett nytt Patient
         }
         public DateOnly ParseDate(string date)
         {
@@ -175,8 +175,18 @@ namespace Vaccination
         }
         public List<string> ParseToList(string input)
         {
-            //parsa rad av input till lista (string split)
-            //om den nya listan inehåller mindre än 6 element retuneras inget och ger felmedelande
+
+            string[] elements = input.Split(',');
+
+            if (elements.Length >= 6)
+            {
+                List<string> parsedList = new List<string>(elements);
+                return parsedList;
+            }
+            else
+            {
+                throw new ArgumentException("Felaktig indatasträng");
+            }
         }
     }
     public class Program
