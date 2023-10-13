@@ -151,8 +151,8 @@ namespace Vaccination
                 var personnummer = ParseDate(elements[0]);
                 int birthDate = int.Parse(personnummer[0]);
                 string lastFourDigits = personnummer[1];
-                string firstName = elements[1];
-                string lastName = elements[2];
+                string firstName = elements[2];
+                string lastName = elements[1];
                 bool healthcareWorker = ParseToBool(elements[3]);
                 bool riskGroup = ParseToBool(elements[4]);
                 bool hasBeenInfected = ParseToBool(elements[5]);
@@ -352,12 +352,12 @@ namespace Vaccination
 
             for (int i = 0; i < patients.Count(); i++)
             {
-                if (patients[i].Personnummer < DateMinusEighteenYears && !vaccinateChildren)
+                if (patients[i].Personnummer > DateMinusEighteenYears && vaccinateChildren)
                 {
                     patients.RemoveAt(i);
                 }
             }
-            patients.OrderBy(p => p.HealthcareWorker).OrderByDescending(p => p.Personnummer).OrderBy(p => p.RiskGroup);
+            patients = patients.OrderByDescending(p => p.HealthcareWorker).ThenByDescending(p => p.Personnummer).ThenByDescending(p => p.RiskGroup).ToList<Patient>();
 
             foreach (var person in patients)
             {
@@ -367,11 +367,11 @@ namespace Vaccination
                 {
                     vaccineDoses = 1;
                 }
-                if (doses >= vaccineDoses)
+                if (vaccineDoses  <= doses)
                 {
                     vaccinationOrder.Add(
                         person.Personnummer.ToString() +
-                        "," +
+                        "-" +
                         person.LastFourDigits +
                         "," +
                         person.Lastname +
@@ -380,6 +380,7 @@ namespace Vaccination
                         "," +
                         vaccineDoses.ToString()
                         );
+                    doses -= vaccineDoses;
                 }
                 else
                 {
@@ -478,11 +479,12 @@ namespace Vaccination
         [TestMethod]
         public void ExampleTest()
         {
-            // Arrange
+            // Arrange health / risk / infection
             string[] input =
             {
                 "19720906-1111,Elba,Idris,0,0,1",
                 "8102032222,Efternamnsson,Eva,1,1,0"
+
             };
             int doses = 10;
             bool vaccinateChildren = false;
