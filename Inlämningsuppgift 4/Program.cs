@@ -147,7 +147,26 @@ namespace Vaccination
 
             if (elements != null && elements.Count == 6)
             {
+                string FirstName = elements[0];
+                string LastName = elements[1];
+                string Personnummer = elements[2];
+                string HealthCareWorker = elements[3];
+                string RiskGroup = elements[4];
+                string HasBeenInfected = elements[5];
 
+                return new Patient
+                {
+                    FirstName = firstName,
+                    Lastname = lastName,
+                    Personnummer = personnummer,
+                    HealthcareWorker = healthcareWorker,
+                    RiskGroup = riskGroup,
+                    HasBeenInfected = hasBeenInfected
+                };
+            }
+            else
+            {
+                return null;
             }
             //Konventera till Patient objekt
             //parse to list - ta in en string och spotta ut en lista
@@ -170,8 +189,7 @@ namespace Vaccination
 
             if (elements.Length >= 6)
             {
-                List<string> parsedList = new List<string>(elements);
-                return parsedList;
+                return new List<string>(elements);
             }
             else
             {
