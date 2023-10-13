@@ -159,13 +159,19 @@ namespace Vaccination
 
         public Patient AddPerson(string input)
         {
+            List<string> elements = ParseToList(input);
+
+            if (elements != null && elements.Count == 6)
+            {
+
+            }
             //Konventera till Patient objekt
             //parse to list - ta in en string och spotta ut en lista
             //ParseDate() - på första elementert av listan
             //ParseToBool() - på 3 sista elementen av listan
             //skapa sedan ett nytt Patient
         }
-        public DateOnly ParseDate(string date)
+        public int ParseDate(string date)
         {
 
         }
@@ -185,7 +191,7 @@ namespace Vaccination
             }
             else
             {
-                throw new ArgumentException("Felaktig indatasträng");
+                return null;
             }
         }
     }
