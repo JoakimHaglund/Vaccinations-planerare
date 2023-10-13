@@ -142,7 +142,7 @@ namespace Vaccination
         public bool RiskGroup;
         public bool HasBeenInfected;
 
-        public Patient AddPerson(string input)
+        public static Patient AddPerson(string input)
         {
             List<string> elements = ParseToList(input);
 
@@ -209,11 +209,11 @@ namespace Vaccination
 
             return personnummer;
         }
-        public bool ParseToBool(string input)
+        public static bool ParseToBool(string input)
         {
             return input == "1" ? true : false;
         }
-        public List<string> ParseToList(string input)
+        public static List<string> ParseToList(string input)
         {
 
             string[] elements = input.Split(',');
@@ -263,8 +263,9 @@ namespace Vaccination
                 //Skapa prioritetsordning
                 if (choice == 0)
                 {
-                    List<string> k = FileIo.ReadFile(PathIn);
-                    FileIo.WriteFile(PathOut, k);
+                    List<string> input = FileIo.ReadFile(PathIn);
+                    string[] output = CreateVaccinationOrder(input.ToArray(), AvailableVaccineDoses, VaccinateMinors);
+                    FileIo.WriteFile(PathOut, input);
                 }
                 //Ändra antal vaccindoser
                 else if (choice == 1)
@@ -332,18 +333,57 @@ namespace Vaccination
         // vaccinateChildren: whether to vaccinate people younger than 18
         public static string[] CreateVaccinationOrder(string[] input, int doses, bool vaccinateChildren)
         {
-            List<string> vaccinationOrder = new List<string>();
+            var vaccinationOrder = new List<string>();
+            var patients = new List<Patient>();
+            DateTime DateTimeNow = DateTime.Now;
 
-            foreach (var person in sortedPopulation)
+            int DateMinusEighteenYears = int.Parse(
+                    (DateTimeNow.Year - 18).ToString() 
+                    + DateTimeNow.Month.ToString() 
+                    + DateTimeNow.Day.ToString()
+                );
+
+            foreach (var pat in input)
             {
-                if (person.Age < 18 && !vaccinateChildren)
-                {
+                patients.Add(Patient.AddPerson(pat));
+            }
+            // sort by  health worker, age, risk grp -> all else?
+            //
 
+            for (int i = 0; i < patients.Count(); i++)
+            {
+                if (patients[i].Personnummer < DateMinusEighteenYears && !vaccinateChildren)
+                {
+                    patients.RemoveAt(i);
                 }
+            }
+            patients.OrderBy(p => p.HealthcareWorker).OrderByDescending(p => p.Personnummer).OrderBy(p => p.RiskGroup);
+
+            foreach (var person in patients)
+            {
+                int vaccineDoses = 2;
 
                 if (person.HasBeenInfected)
                 {
-
+                    vaccineDoses = 1;
+                }
+                if (doses >= vaccineDoses)
+                {
+                    vaccinationOrder.Add(
+                        person.Personnummer.ToString() +
+                        "," +
+                        person.LastFourDigits +
+                        "," +
+                        person.Lastname +
+                        "," +
+                        person.FirstName +
+                        "," +
+                        vaccineDoses.ToString()
+                        );
+                }
+                else
+                {
+                    break;
                 }
             }
             // Replace with your own code.
@@ -351,7 +391,7 @@ namespace Vaccination
             //use patient list to create vaccine order
             // turn it into a list of csv strings
 
-            return new string[0];
+            return vaccinationOrder.ToArray();
         }
 
         public static int ShowMenu(string prompt, IEnumerable<string> options)
