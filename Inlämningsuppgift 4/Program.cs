@@ -157,13 +157,32 @@ namespace Vaccination
         public bool RiskGroup;
         public bool HasBeenInfected;
 
-        public Patient AddPerson(string input)
+        public static Patient AddPerson(string input)
         {
             List<string> elements = ParseToList(input);
 
             if (elements != null && elements.Count == 6)
             {
+                string FirstName = elements[0];
+                string LastName = elements[1];
+                string Personnummer = elements[2];
+                string HealthCareWorker = elements[3];
+                string RiskGroup = elements[4];
+                string HasBeenInfected = elements[5];
 
+                return new Patient
+                {
+                    FirstName = firstName,
+                    Lastname = lastName,
+                    Personnummer = personnummer,
+                    HealthcareWorker = healthcareWorker,
+                    RiskGroup = riskGroup,
+                    HasBeenInfected = hasBeenInfected
+                };
+            }
+            else
+            {
+                return null;
             }
             //Konventera till Patient objekt
             //parse to list - ta in en string och spotta ut en lista
@@ -171,23 +190,22 @@ namespace Vaccination
             //ParseToBool() - på 3 sista elementen av listan
             //skapa sedan ett nytt Patient
         }
-        public int ParseDate(string date)
+        public static int ParseDate(string date)
         {
 
         }
-        public bool ParseToBool(string input)
+        public static bool ParseToBool(string input)
         {
 
         }
-        public List<string> ParseToList(string input)
+        public static List<string> ParseToList(string input)
         {
 
             string[] elements = input.Split(',');
 
             if (elements.Length >= 6)
             {
-                List<string> parsedList = new List<string>(elements);
-                return parsedList;
+                return new List<string>(elements);
             }
             else
             {
