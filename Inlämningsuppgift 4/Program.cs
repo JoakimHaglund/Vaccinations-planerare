@@ -135,6 +135,7 @@ namespace Vaccination
     public class Patient
     {
         public int Personnummer;
+        public string LastFourDigits;
         public string FirstName;
         public string Lastname;
         public bool HealthcareWorker;
@@ -147,21 +148,24 @@ namespace Vaccination
 
             if (elements != null && elements.Count == 6)
             {
-                string personnummer = elements[0];
+                var personnummer = ParseDate(elements[0]);
+                int birthDate = int.Parse(personnummer[0]);
+                string lastFourDigits = personnummer[1];
                 string firstName = elements[1];
                 string lastName = elements[2];
-                string healthcareWorker = elements[3];
-                string riskGroup = elements[4];
-                string hasBeenInfected = elements[5];
+                bool healthcareWorker = ParseToBool(elements[3]);
+                bool riskGroup = ParseToBool(elements[4]);
+                bool hasBeenInfected = ParseToBool(elements[5]);
 
                 return new Patient
                 {
-                    Personnummer = personnummer,
+                    Personnummer = birthDate,
+                    LastFourDigits = lastFourDigits,
                     FirstName = firstName,
                     Lastname = lastName,
-                    HealthcareWorker = ParseToBool(healthcareWorker),
-                    RiskGroup = ParseToBool(riskGroup),
-                    HasBeenInfected = ParseToBool(hasBeenInfected)
+                    HealthcareWorker = healthcareWorker,
+                    RiskGroup = riskGroup,
+                    HasBeenInfected = hasBeenInfected
                 };
             }
             else
