@@ -133,31 +133,31 @@ namespace Vaccination
     }
     public class Patient
     {
+        public int Personnummer;
         public string FirstName;
         public string Lastname;
-        public int Personnummer;
         public bool HealthcareWorker;
         public bool RiskGroup;
         public bool HasBeenInfected;
 
- /*       public Patient AddPerson(string input)
+        public Patient AddPerson(string input)
         {
             List<string> elements = ParseToList(input);
 
             if (elements != null && elements.Count == 6)
             {
-                string FirstName = elements[0];
-                string LastName = elements[1];
-                string Personnummer = elements[2];
-                string HealthCareWorker = elements[3];
-                string RiskGroup = elements[4];
-                string HasBeenInfected = elements[5];
+                string personnummer = elements[0];
+                string firstName = elements[1];
+                string lastName = elements[2];
+                string healthcareWorker = elements[3];
+                string riskGroup = elements[4];
+                string hasBeenInfected = elements[5];
 
                 return new Patient
                 {
+                    Personnummer = personnummer,
                     FirstName = firstName,
                     Lastname = lastName,
-                    Personnummer = personnummer,
                     HealthcareWorker = healthcareWorker,
                     RiskGroup = riskGroup,
                     HasBeenInfected = hasBeenInfected
@@ -180,7 +180,7 @@ namespace Vaccination
         public bool ParseToBool(string input)
         {
 
-        }*/
+        }
         public List<string> ParseToList(string input)
         {
 
