@@ -161,7 +161,7 @@ namespace Vaccination
                     Lastname = lastName,
                     HealthcareWorker = healthcareWorker,
                     RiskGroup = riskGroup,
-                    HasBeenInfected = hasBeenInfected
+                    HasBeenInfected = ParseToBool(hasBeenInfected)
                 };
             }
             else
@@ -174,13 +174,38 @@ namespace Vaccination
             //ParseToBool() - på 3 sista elementen av listan
             //skapa sedan ett nytt Patient
         }
-        public int ParseDate(string date)
+        public static List<string> ParseDate(string date)
         {
+            var personnummer = new List<string>();
             //Needs to check year string lenght - if 10 chars -> add year
             //if there's no '-' for last four digits then we need to handle that
             //perhaps return as list so we can seperate the birth date and last 4 digits
+            int numOfHypens = date.Count(c => (c == '-'));
+            if (numOfHypens > 1)
+            {
+                Console.WriteLine("Wrong format!");
+                return null;
+            }
+            if (date.Contains('-'))
+            {
+                personnummer = date.Split('-').ToList();
+            }
+            else
+            {
+                int split = date.Length - 4;
+                string birthDate = date.Substring(0, split);
+                string lastFourDigits = date.Substring(split);
+                personnummer.Add(birthDate);
+                personnummer.Add(lastFourDigits);
+            }
+            if (personnummer[0].Length < 8)
+            {
+                personnummer[0] = "19" + personnummer[0];
+            }
+
+            return personnummer;
         }
-        public bool ParseToBool(string input)
+            public bool ParseToBool(string input)
         {
             return input == "1" ? true : false;
         }
