@@ -140,7 +140,7 @@ namespace Vaccination
 
 
     }
-    public class PersonalInformation
+    public class Patient
     {
         public string FirstName;
         public string Lastname;
@@ -151,6 +151,8 @@ namespace Vaccination
     }
     public class Program
     {
+        private static List<Patient> patients = new List<Patient>();
+        private static string csvPath = @"C:\Windows\Temp\Contacts.csv";
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
@@ -207,6 +209,8 @@ namespace Vaccination
                 //Avsluta
                 else
                 {
+                    Console.WriteLine();
+                    Console.WriteLine("Hejdå!");
                     break;
                 }
                 Console.Clear();
@@ -222,7 +226,6 @@ namespace Vaccination
             return vaccinationDoses;
 
         }
-
 
         public static bool ChangeVaccinationSetting()
         {
