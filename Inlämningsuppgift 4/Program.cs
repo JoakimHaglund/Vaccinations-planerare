@@ -18,6 +18,7 @@ namespace Vaccination
                 try
                 {
                     int? value = int.Parse(Console.ReadLine());
+                    return value;
                 }
                 catch (OverflowException)
                 {
@@ -50,9 +51,9 @@ namespace Vaccination
             }
         }
     }
-    public class FileIo
+    public static class FileIo
     {
-        public static string Directory = @"C:\Windows\Temp\";
+        //public static string Directory = @"C:\Windows\Temp\";
         public static string ChangeFile()
         {
             while (true)
@@ -87,6 +88,10 @@ namespace Vaccination
                     Console.WriteLine("Invalid file name!");
                 }
             }
+        }
+        public string ReadFilePath(bool checkFileExist, string format)
+        {
+            Directory.Exists();
         }
         /*public List<string> ReadCsvFile(string path)
         {
@@ -174,12 +179,12 @@ namespace Vaccination
                 //Ändra indatafil
                 else if (choice == 3)
                 {
-
+                    PathIn = FileIo.ChangeDirectory();
                 }
                 //Ändra utdatafil
                 else if (choice == 4)
                 {
-
+                    PathOut = FileIo.ChangeDirectory();
                 }
                 //Avsluta
                 else
