@@ -53,48 +53,22 @@ namespace Vaccination
     }
     public class FileIo
     {
-        //public static string Directory = @"C:\Windows\Temp\";
-        /*public static string ChangeFile()
-        {
-            while (true)
-            {
-                string file = ValidateInput.ReadString($"Enter fileName: {Directory}") + ".csv";
-                string path = Directory + file;
-                if (File.Exists(path))
-                {
-                    return path;
-                }
-                else
-                {
-                    Console.WriteLine("File does not exist!");
-                }
-
-            }
-        }*/
-        public static string ChangeDirectory()
-        {
-            while (true)
-            {
-                try
-                {
-                    string enviromentPath = @"C:\Windows\Temp\";
-                    Console.Write("Enter fileName: ");
-                    string file = Console.ReadLine() + ".csv";
-                    string path = enviromentPath + file;
-                    return path;
-                }
-                catch
-                {
-                    Console.WriteLine("Invalid file name!");
-                }
-            }
-        }
         public static string ReadFilePath(bool checkFileExist = true)
         {
             while (true)
             {
                 Console.Write("Enter fileName: ");
                 string path = Console.ReadLine();
+                int last = path.LastIndexOf('\\');
+                string dirPath;
+                if (last == -1)
+                {
+                    dirPath = path.Substring(0, last);
+                }
+                else
+                {
+                    Console.WriteLine("Felaktig filsökväg!");
+                }
                 if (Directory.Exists(path))
                 {
                     if (checkFileExist)
@@ -157,7 +131,7 @@ namespace Vaccination
         public bool RiskGroup;
         public bool HasBeenInfected;
 
-        public Patient AddPerson(string input)
+ /*       public Patient AddPerson(string input)
         {
             //Konventera till Patient objekt
             //parse to list - ta in en string och spotta ut en lista
@@ -172,7 +146,7 @@ namespace Vaccination
         public bool ParseToBool(string input)
         {
 
-        }
+        }*/
         public List<string> ParseToList(string input)
         {
 
