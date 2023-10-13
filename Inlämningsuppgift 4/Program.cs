@@ -141,7 +141,7 @@ namespace Vaccination
         public bool RiskGroup;
         public bool HasBeenInfected;
 
- /*       public Patient AddPerson(string input)
+        public Patient AddPerson(string input)
         {
             List<string> elements = ParseToList(input);
 
