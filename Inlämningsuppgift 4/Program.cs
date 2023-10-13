@@ -17,7 +17,7 @@ namespace Vaccination
                 Console.Write(question + " ");
                 try
                 {
-                    int? value = int.Parse(Console.ReadLine());
+                    int value = int.Parse(Console.ReadLine());
                     return value;
                 }
                 catch (OverflowException)
@@ -51,10 +51,10 @@ namespace Vaccination
             }
         }
     }
-    public static class FileIo
+    public class FileIo
     {
         //public static string Directory = @"C:\Windows\Temp\";
-        public static string ChangeFile()
+        /*public static string ChangeFile()
         {
             while (true)
             {
@@ -70,7 +70,7 @@ namespace Vaccination
                 }
                 
             }
-        }
+        }*/
         public static string ChangeDirectory()
         {
             while (true)
@@ -89,9 +89,27 @@ namespace Vaccination
                 }
             }
         }
-        public string ReadFilePath(bool checkFileExist, string format)
+        public static string ReadFilePath(bool checkFileExist, string format)
         {
-            Directory.Exists();
+            while (true)
+            {
+                Console.Write("Enter fileName: ");
+                string path = Console.ReadLine();
+                if (Directory.Exists(path))
+                {
+                    if (checkFileExist)
+                    {
+                        if (File.Exists(path))
+                        {
+                            return path;
+                        }
+                    }
+                    else
+                    {
+                        return path;
+                    }
+                }
+            }
         }
         /*public List<string> ReadCsvFile(string path)
         {
