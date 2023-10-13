@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace Vaccination
@@ -43,7 +43,7 @@ namespace Vaccination
                     string value = Console.ReadLine();
                     return value;
                 }
-                catch 
+                catch
                 {
                     Console.WriteLine("Invalid value!");
                 }
@@ -63,11 +63,11 @@ namespace Vaccination
                 {
                     return path;
                 }
-                else 
+                else
                 {
                     Console.WriteLine("File does not exist!");
                 }
-                
+
             }
         }
         public static string ChangeDirectory()
@@ -159,17 +159,17 @@ namespace Vaccination
                 //Skapa prioritetsordning
                 if (choice == 0)
                 {
-                    
+
                 }
                 //Ändra antal vaccindoser
                 else if (choice == 1)
                 {
-                    ChangeVaccinationDoses();
+                    AvailableVaccineDoses = ChangeVaccinationDoses();
                 }
                 //Ändra åldersgräns
                 else if (choice == 2)
                 {
-                    ChangeVaccinationSetting();
+                    VaccinateMinors = ChangeVaccinationSetting();
                 }
                 //Ändra indatafil
                 else if (choice == 3)
@@ -190,12 +190,13 @@ namespace Vaccination
             }
         }
 
-        public static void ChangeVaccinationDoses()
+        public static int ChangeVaccinationDoses()
         {
             Console.WriteLine("Ändra antal vaccindoser");
             Console.WriteLine("-----------------------");
             int vaccinationDoses = ValidateInput.ReadInt("Ange nytt antal doser: ");
             Console.WriteLine($"Du angav vaccinationDoser: {vaccinationDoses}");
+            return vaccinationDoses;
 
         }
 
@@ -205,7 +206,7 @@ namespace Vaccination
             bool newSetting = AskForVaccinationSetting();
             Console.WriteLine("Inställningen har ändrats till: " + (newSetting ? "Ja" : "Nej"));
             return newSetting;
-            
+
         }
 
         public static bool AskForVaccinationSetting()
@@ -213,14 +214,7 @@ namespace Vaccination
             List<string> options = new List<string> { "Ja", "Nej" };
             int input = ShowMenu("Ska personer under 18 år vaccineras? (Ja/Nej)", options);
 
-            if (input == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return input == 0;
 
         }
         // Create the lines that should be saved to a CSV file after creating the vaccination order.
