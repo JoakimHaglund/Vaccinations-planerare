@@ -53,48 +53,22 @@ namespace Vaccination
     }
     public class FileIo
     {
-        //public static string Directory = @"C:\Windows\Temp\";
-        /*public static string ChangeFile()
-        {
-            while (true)
-            {
-                string file = ValidateInput.ReadString($"Enter fileName: {Directory}") + ".csv";
-                string path = Directory + file;
-                if (File.Exists(path))
-                {
-                    return path;
-                }
-                else
-                {
-                    Console.WriteLine("File does not exist!");
-                }
-
-            }
-        }*/
-        public static string ChangeDirectory()
-        {
-            while (true)
-            {
-                try
-                {
-                    string enviromentPath = @"C:\Windows\Temp\";
-                    Console.Write("Enter fileName: ");
-                    string file = Console.ReadLine() + ".csv";
-                    string path = enviromentPath + file;
-                    return path;
-                }
-                catch
-                {
-                    Console.WriteLine("Invalid file name!");
-                }
-            }
-        }
         public static string ReadFilePath(bool checkFileExist = true)
         {
             while (true)
             {
                 Console.Write("Enter fileName: ");
                 string path = Console.ReadLine();
+                int last = path.LastIndexOf('\\');
+                string dirPath;
+                if (last == -1)
+                {
+                    dirPath = path.Substring(0, last);
+                }
+                else
+                {
+                    Console.WriteLine("Felaktig filsökväg!");
+                }
                 if (Directory.Exists(path))
                 {
                     if (checkFileExist)
@@ -119,33 +93,42 @@ namespace Vaccination
                 }
             }
         }
-        /*public List<string> ReadCsvFile(string path)
+        public List<string> ReadFile(string path)
         {
-            while (true)
+            try
             {
-                try
-                {
-                    List<string> list = File.ReadAllLines(path).ToList();
-                    return list;
-                }
-                catch (DirectoryNotFoundException)
-                {
-                    Console.WriteLine("ERROR: Directory not found!");
-                    break;
-                }
-                catch (FileNotFoundException)
-                {
-                    Console.WriteLine("ERROR: File not found!");
-                    break;
-                }
-                catch
-                {
-                    Console.WriteLine("Error in file read");
-                    break;
-                }
+                List<string> list = File.ReadAllLines(path).ToList();
+                return list;
             }
-        }*/
-
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("ERROR: Directory not found!");
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("ERROR: File not found!");
+            }
+            catch
+            {
+                Console.WriteLine("Error in file read");
+            }
+            return null;
+        }
+        public void WriteFile(string path, List<string> lines)
+        {
+            try
+            {
+                File.WriteAllLines(path, lines);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("ERROR: Directory not found!");
+            }
+            catch
+            {
+                Console.WriteLine("Error in file write");
+            }
+        }
 
     }
     public class Patient
@@ -157,7 +140,7 @@ namespace Vaccination
         public bool RiskGroup;
         public bool HasBeenInfected;
 
-        public Patient AddPerson(string input)
+ /*       public Patient AddPerson(string input)
         {
             List<string> elements = ParseToList(input);
 
@@ -197,7 +180,7 @@ namespace Vaccination
         public bool ParseToBool(string input)
         {
 
-        }
+        }*/
         public List<string> ParseToList(string input)
         {
 
