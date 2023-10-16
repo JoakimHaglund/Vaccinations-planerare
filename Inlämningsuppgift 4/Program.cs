@@ -34,22 +34,6 @@ namespace Vaccination
                 }
             }
         }
-        public static string ReadString(string question)
-        {
-            while (true)
-            {
-                Console.Write(question + " ");
-                try
-                {
-                    string value = Console.ReadLine();
-                    return value;
-                }
-                catch
-                {
-                    Console.WriteLine("Felaktigt värde!");
-                }
-            }
-        }
         public static DateOnly? Date(string date)
         {
             try
@@ -388,7 +372,7 @@ namespace Vaccination
             var vaccinationOrder = new List<string>();
             var patients = new List<Patient>();
             var dateNow = DateOnly.FromDateTime(DateTime.Now);
-            var DateEighteenYearsAgo = dateNow.AddYears(-18);
+            var dateEighteenYearsAgo = dateNow.AddYears(-18);
 
             patients = Patient.AddPersons(input);
 
@@ -399,7 +383,7 @@ namespace Vaccination
 
             for (int i = 0; i < patients.Count; i++)
             {
-                if (patients[i].Personnummer > DateEighteenYearsAgo && !vaccinateChildren)
+                if (patients[i].Personnummer > dateEighteenYearsAgo && !vaccinateChildren)
                 {
                     patients.RemoveAt(i);
                 }
@@ -587,7 +571,7 @@ namespace Vaccination
             // Arrange health / risk / infection
             string[] input =
             {
-                "20000101-1111,Svennson,Bob,0,0,0",
+                "19500101-1111,Svennson,Bob,0,0,0",
                 "20010101-2222,Svennson,Sven,1,0,0"
             };
             int doses = 10;
@@ -598,7 +582,7 @@ namespace Vaccination
 
             // Assert
             Assert.AreEqual(2, output.Length);
-            Assert.AreEqual("20000101-1111,Svennson,Bob,2", output[1]);
+            Assert.AreEqual("19500101-1111,Svennson,Bob,2", output[1]);
             Assert.AreEqual("20010101-2222,Svennson,Sven,2", output[0]);
         }
         [TestMethod]
