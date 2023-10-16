@@ -5,7 +5,7 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-
+using System.Reflection;
 
 namespace Vaccination
 {
@@ -49,6 +49,19 @@ namespace Vaccination
                 {
                     Console.WriteLine("Felaktigt värde!");
                 }
+            }
+        }
+        public static DateOnly? Date(string date)
+        {
+            try
+            {
+                var output = DateOnly.ParseExact(date, "yyyyMMdd");
+                return output;
+            }
+            catch
+            {
+                Console.WriteLine("Felaktigt datum");
+                return null;
             }
         }
     }
@@ -120,7 +133,7 @@ namespace Vaccination
             try
             {
                 File.WriteAllLines(path, lines);
-                Console.WriteLine("Fil sparad till: " + path);
+                Console.WriteLine("Resultatet har sparats i " + path);
             }
             catch (DirectoryNotFoundException)
             {
@@ -135,13 +148,13 @@ namespace Vaccination
     }
     public class Patient
     {
-        public DateOnly Personnummer;
+        public DateOnly? Personnummer;
         public string LastFourDigits;
         public string FirstName;
         public string Lastname;
-        public bool HealthcareWorker;
-        public bool RiskGroup;
-        public bool HasBeenInfected;
+        public bool? HealthcareWorker;
+        public bool? RiskGroup;
+        public bool? HasBeenInfected;
 
         public static Patient AddPerson(string input)
         {
@@ -150,30 +163,49 @@ namespace Vaccination
             if (elements != null && elements.Count == 6)
             {
                 var personnummer = ParseDate(elements[0]);
-                DateOnly birthDate = DateOnly.ParseExact(personnummer[0], "yyyyMMdd");
-                string lastFourDigits = personnummer[1];
-                string firstName = elements[2];
-                string lastName = elements[1];
-                bool healthcareWorker = ParseToBool(elements[3]);
-                bool riskGroup = ParseToBool(elements[4]);
-                bool hasBeenInfected = ParseToBool(elements[5]);
 
                 return new Patient
                 {
-                    Personnummer = birthDate,
-                    LastFourDigits = lastFourDigits,
-                    FirstName = firstName,
-                    Lastname = lastName,
-                    HealthcareWorker = healthcareWorker,
-                    RiskGroup = riskGroup,
-                    HasBeenInfected = hasBeenInfected
+                    Personnummer = ValidateInput.Date(personnummer[0]),
+                    LastFourDigits = personnummer[1],
+                    FirstName = elements[2],
+                    Lastname = elements[1],
+                    HealthcareWorker = ParseToBool(elements[3]),
+                    RiskGroup = ParseToBool(elements[4]),
+                    HasBeenInfected = ParseToBool(elements[5])
                 };
             }
             else
             {
                 return null;
             }
+        }
+        public static List<Patient> AddPersons(string[] input) 
+        { 
+            var patients = new List<Patient>();
+            bool abort = false;
+            for (int i = 0; i < input.Length; i++)
+            {
+                var patient = CheckForNull(AddPerson(input[i]));
 
+                if (patient != null)
+                {
+                    patients.Add(patient);
+                }
+                else 
+                {
+                    Console.WriteLine($"Läsfel på rad {i}");
+                    abort = true; 
+                }
+            }
+            if (abort)
+            {
+                return null;
+            }
+            else
+            {
+                return patients;
+            }
         }
         public static List<string> ParseDate(string date)
         {
@@ -203,28 +235,54 @@ namespace Vaccination
 
             return personnummer;
         }
-        public static bool ParseToBool(string input)
+        public static bool? ParseToBool(string input)
         {
-            return input == "1" ? true : false;
+            if(input == "1" || input == "0")
+            {
+                return input == "1" ? true : false;
+            }
+            return null;
         }
         public static List<string> ParseToList(string input)
         {
 
             string[] elements = input.Split(',');
 
-            if (elements.Length >= 6)
+            if (elements.Length == 6)
             {
                 return new List<string>(elements);
             }
             else
+            {   
+                return null;
+            }
+        }
+        public static Patient CheckForNull(Patient patient)
+        {
+            if (patient.HealthcareWorker == null) 
             {
                 return null;
+            }
+            else if (patient.RiskGroup == null)
+            {
+                return null;
+            }
+            else if (patient.HasBeenInfected == null)
+            {
+                return null;
+            }
+            else if (patient.Personnummer == null)
+            {
+                return null;
+            }
+            else
+            {
+                return patient;
             }
         }
     }
     public class Program
     {
-        private static List<Patient> patients = new List<Patient>();
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
@@ -258,7 +316,15 @@ namespace Vaccination
                 {
                     List<string> input = FileIo.ReadFile(PathIn);
                     string[] output = CreateVaccinationOrder(input.ToArray(), AvailableVaccineDoses, VaccinateMinors);
-                    FileIo.WriteFile(PathOut, output);
+                    if (output != null)
+                    {
+                        FileIo.WriteFile(PathOut, output);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Reslutatet har inte sparats!");
+                    }
+                    Console.ReadLine();
                 }
 
                 else if (choice == 1)
@@ -311,7 +377,7 @@ namespace Vaccination
 
         public static bool AskForVaccinationSetting()
         {
-            List<string> options = new List<string> { "Ja", "Nej" };
+            var options = new List<string> { "Ja", "Nej" };
             int input = ShowMenu("Ska personer under 18 år vaccineras? (Ja/Nej)", options);
 
             return input == 0;
@@ -324,12 +390,14 @@ namespace Vaccination
             var patients = new List<Patient>();
             var DateEighteenYearsAgo = DateOnly.FromDateTime(DateTime.Now).AddYears(-18);
 
-            foreach (var pat in input)
+            patients = Patient.AddPersons(input);
+
+            if (patients == null)
             {
-                patients.Add(Patient.AddPerson(pat));
+                return null;
             }
 
-            for (int i = 0; i < patients.Count(); i++)
+            for (int i = 0; i < patients.Count; i++)
             {
                 if (patients[i].Personnummer > DateEighteenYearsAgo && vaccinateChildren)
                 {
@@ -345,7 +413,7 @@ namespace Vaccination
             {
                 int vaccineDoses = 2;
 
-                if (person.HasBeenInfected)
+                if ((bool)person.HasBeenInfected)
                 {
                     vaccineDoses = 1;
                 }
@@ -375,7 +443,7 @@ namespace Vaccination
 
         public static int ShowMenu(string prompt, IEnumerable<string> options)
         {
-            if (options == null || options.Count() == 0)
+            if (options == null || !options.Any())
             {
                 throw new ArgumentException("Cannot show a menu for an empty list of options.");
             }
