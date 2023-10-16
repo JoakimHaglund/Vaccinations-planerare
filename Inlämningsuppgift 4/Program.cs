@@ -387,7 +387,8 @@ namespace Vaccination
         {
             var vaccinationOrder = new List<string>();
             var patients = new List<Patient>();
-            var DateEighteenYearsAgo = DateOnly.FromDateTime(DateTime.Now).AddYears(-18);
+            var dateNow = DateOnly.FromDateTime(DateTime.Now);
+            var DateEighteenYearsAgo = dateNow.AddYears(-18);
 
             patients = Patient.AddPersons(input);
 
@@ -404,7 +405,7 @@ namespace Vaccination
                 }
             }
             patients = patients.OrderByDescending(p => p.HealthcareWorker)
-                .ThenBy(p => p.Personnummer)
+                .ThenBy(p => p.Personnummer <= dateNow.AddYears(-65))
                 .ThenByDescending(p => p.RiskGroup)
                 .ToList<Patient>();
 
