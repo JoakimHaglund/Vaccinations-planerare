@@ -399,13 +399,13 @@ namespace Vaccination
 
             for (int i = 0; i < patients.Count; i++)
             {
-                if (patients[i].Personnummer > DateEighteenYearsAgo && vaccinateChildren)
+                if (patients[i].PersonNummer > DateEighteenYearsAgo && vaccinateChildren)
                 {
                     patients.RemoveAt(i);
                 }
             }
             patients = patients.OrderByDescending(p => p.HealthcareWorker)
-                .ThenByDescending(p => p.Personnummer)
+                .ThenByDescending(p => p.PersonNummer)
                 .ThenByDescending(p => p.RiskGroup)
                 .ToList<Patient>();
 
@@ -420,7 +420,7 @@ namespace Vaccination
                 if (vaccineDoses <= doses)
                 {
                     vaccinationOrder.Add(
-                        person.Personnummer.ToString() +
+                        person.PersonNummer.ToString() +
                         "-" +
                         person.LastFourDigits +
                         "," +
