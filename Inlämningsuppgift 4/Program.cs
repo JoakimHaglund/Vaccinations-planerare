@@ -399,13 +399,13 @@ namespace Vaccination
 
             for (int i = 0; i < patients.Count; i++)
             {
-                if (patients[i].PersonNummer > DateEighteenYearsAgo && vaccinateChildren)
+                if (patients[i].Personnummer > DateEighteenYearsAgo && !vaccinateChildren)
                 {
                     patients.RemoveAt(i);
                 }
             }
             patients = patients.OrderByDescending(p => p.HealthcareWorker)
-                .ThenByDescending(p => p.PersonNummer)
+                .ThenBy(p => p.Personnummer)
                 .ThenByDescending(p => p.RiskGroup)
                 .ToList<Patient>();
 
@@ -420,7 +420,7 @@ namespace Vaccination
                 if (vaccineDoses <= doses)
                 {
                     vaccinationOrder.Add(
-                        person.PersonNummer.ToString() +
+                        person.Personnummer.Value.ToString("yyyyMMdd") +
                         "-" +
                         person.LastFourDigits +
                         "," +
@@ -530,7 +530,6 @@ namespace Vaccination
             {
                 "19720906-1111,Elba,Idris,0,0,1",
                 "8102032222,Efternamnsson,Eva,1,1,0"
-
             };
             int doses = 10;
             bool vaccinateChildren = false;
@@ -539,9 +538,29 @@ namespace Vaccination
             string[] output = Program.CreateVaccinationOrder(input, doses, vaccinateChildren);
 
             // Assert
-            Assert.AreEqual(output.Length, 2);
+            Assert.AreEqual(2, output.Length);
             Assert.AreEqual("19810203-2222,Efternamnsson,Eva,2", output[0]);
             Assert.AreEqual("19720906-1111,Elba,Idris,1", output[1]);
+        }
+        [TestMethod]
+        public void VaccinateMinors()
+        {
+            // Arrange health / risk / infection
+            string[] input =
+            {
+                "20000101-1111,Svennson,Bob,0,0,0",
+                "20100101-2222,Svennson,Sven,0,0,0"
+            };
+            int doses = 10;
+            bool vaccinateChildren = true;
+
+            // Act
+            string[] output = Program.CreateVaccinationOrder(input, doses, vaccinateChildren);
+
+            // Assert
+            Assert.AreEqual(2, output.Length);
+            Assert.AreEqual("20000101-1111,Svennson,Bob,2", output[0]);
+            Assert.AreEqual("20100101-2222,Svennson,Sven,2", output[1]);
         }
     }
 }
