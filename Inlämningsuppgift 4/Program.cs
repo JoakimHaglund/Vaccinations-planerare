@@ -135,7 +135,7 @@ namespace Vaccination
     }
     public class Patient
     {
-        public DateOnly Personnummer;
+        public DateOnly PersonNummer;
         public string LastFourDigits;
         public string FirstName;
         public string Lastname;
@@ -160,7 +160,7 @@ namespace Vaccination
 
                 return new Patient
                 {
-                    Personnummer = birthDate,
+                    PersonNummer = birthDate,
                     LastFourDigits = lastFourDigits,
                     FirstName = firstName,
                     Lastname = lastName,
@@ -331,13 +331,13 @@ namespace Vaccination
 
             for (int i = 0; i < patients.Count(); i++)
             {
-                if (patients[i].Personnummer > DateEighteenYearsAgo && vaccinateChildren)
+                if (patients[i].PersonNummer > DateEighteenYearsAgo && vaccinateChildren)
                 {
                     patients.RemoveAt(i);
                 }
             }
             patients = patients.OrderByDescending(p => p.HealthcareWorker)
-                .ThenByDescending(p => p.Personnummer)
+                .ThenByDescending(p => p.PersonNummer)
                 .ThenByDescending(p => p.RiskGroup)
                 .ToList<Patient>();
 
@@ -352,7 +352,7 @@ namespace Vaccination
                 if (vaccineDoses <= doses)
                 {
                     vaccinationOrder.Add(
-                        person.Personnummer.ToString() +
+                        person.PersonNummer.ToString() +
                         "-" +
                         person.LastFourDigits +
                         "," +
