@@ -524,30 +524,23 @@ namespace Vaccination
         [TestMethod]
         public void ExampleTest()
         {
-            // Arrange
-            var patients = new List<Patient>
-    {
-        new Patient("Alice", "Andersson", 15, false, false),
-        new Patient("Bob", "Bengtsson", 20, false, false),
-        new Patient("Charlie", "Carlsson", 17, true, false),
-    };
+            // Arrange health / risk / infection
+            string[] input =
+            {
+                "19720906-1111,Elba,Idris,0,0,1",
+                "8102032222,Efternamnsson,Eva,1,1,0"
 
+            };
             int doses = 10;
-            bool vaccinateMinors = false;
+            bool vaccinateChildren = false;
 
             // Act
-            string[] vaccinationOrder = Program.CreateVaccinationOrder(patients, doses, vaccinateMinors);
+            string[] output = Program.CreateVaccinationOrder(input, doses, vaccinateChildren);
 
             // Assert
-            // Verify that minors (under 18) are excluded from the vaccination order
-            Assert.IsFalse(vaccinationOrder.Any(order => order.Contains("Andersson, Alice")));
-            Assert.IsFalse(vaccinationOrder.Any(order => order.Contains("Carlsson, Charlie")));
-
-            // Verify that adults are included in the vaccination order
-            Assert.IsTrue(vaccinationOrder.Any(order => order.Contains("Bengtsson, Bob")));
-
-            // Make sure there are no exceptions
-            Assert.AreEqual(patients.Count(p => p.Age < 18 && !p.IsHealthcareWorker && !p.IsRiskGroup), 0);
+            Assert.AreEqual(output.Length, 2);
+            Assert.AreEqual("19810203-2222,Efternamnsson,Eva,2", output[0]);
+            Assert.AreEqual("19720906-1111,Elba,Idris,1", output[1]);
         }
     }
 }
