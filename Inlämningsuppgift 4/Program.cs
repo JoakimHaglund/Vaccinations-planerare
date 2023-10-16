@@ -5,7 +5,6 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 namespace Vaccination
 {
@@ -180,8 +179,8 @@ namespace Vaccination
                 return null;
             }
         }
-        public static List<Patient> AddPersons(string[] input) 
-        { 
+        public static List<Patient> AddPersons(string[] input)
+        {
             var patients = new List<Patient>();
             bool abort = false;
             for (int i = 0; i < input.Length; i++)
@@ -192,10 +191,10 @@ namespace Vaccination
                 {
                     patients.Add(patient);
                 }
-                else 
+                else
                 {
                     Console.WriteLine($"Läsfel på rad {i}");
-                    abort = true; 
+                    abort = true;
                 }
             }
             if (abort)
@@ -237,9 +236,9 @@ namespace Vaccination
         }
         public static bool? ParseToBool(string input)
         {
-            if(input == "1" || input == "0")
+            if (input == "1" || input == "0")
             {
-                return input == "1" ? true : false;
+                return input == "1";
             }
             return null;
         }
@@ -253,13 +252,13 @@ namespace Vaccination
                 return new List<string>(elements);
             }
             else
-            {   
+            {
                 return null;
             }
         }
         public static Patient CheckForNull(Patient patient)
         {
-            if (patient.HealthcareWorker == null) 
+            if (patient.HealthcareWorker == null)
             {
                 return null;
             }
@@ -399,13 +398,13 @@ namespace Vaccination
 
             for (int i = 0; i < patients.Count; i++)
             {
-                if (patients[i].PersonNummer > DateEighteenYearsAgo && vaccinateChildren)
+                if (patients[i].Personnummer > DateEighteenYearsAgo && vaccinateChildren)
                 {
                     patients.RemoveAt(i);
                 }
             }
             patients = patients.OrderByDescending(p => p.HealthcareWorker)
-                .ThenByDescending(p => p.PersonNummer)
+                .ThenByDescending(p => p.Personnummer)
                 .ThenByDescending(p => p.RiskGroup)
                 .ToList<Patient>();
 
@@ -420,7 +419,7 @@ namespace Vaccination
                 if (vaccineDoses <= doses)
                 {
                     vaccinationOrder.Add(
-                        person.PersonNummer.ToString() +
+                        person.Personnummer.ToString() +
                         "-" +
                         person.LastFourDigits +
                         "," +
