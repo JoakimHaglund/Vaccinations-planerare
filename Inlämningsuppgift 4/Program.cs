@@ -405,7 +405,7 @@ namespace Vaccination
                 }
             }
             patients = patients.OrderByDescending(p => p.HealthcareWorker)
-                .ThenBy(p => p.Personnummer <= dateNow.AddYears(-65))
+                .ThenBy(p => p.Personnummer >= dateNow.AddYears(-65))
                 .ThenByDescending(p => p.RiskGroup)
                 .ToList<Patient>();
 
@@ -649,8 +649,8 @@ namespace Vaccination
             Assert.AreEqual("20000101-1111,Svennson,Bob,1", output[2]);
             Assert.AreEqual("20010101-2222,Nilsson,Mikael,2", output[3]);
             Assert.AreEqual("20010101-2222,Svennson,Sven,2", output[4]);
-            Assert.AreEqual("19950101-1111,Bobsson,Sven,1", output[5]);
-            Assert.AreEqual("20000101-1111,Mikaelsson,Kerstin,2", output[6]);
+            Assert.AreEqual("20000101-1111,Mikaelsson,Kerstin,2", output[5]);
+            Assert.AreEqual("19950101-1111,Bobsson,Sven,1", output[6]);
         }
     }
 }
