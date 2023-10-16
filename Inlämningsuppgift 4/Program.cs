@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -114,7 +115,7 @@ namespace Vaccination
             }
             return null;
         }
-        public static void WriteFile(string path, List<string> lines)
+        public static void WriteFile(string path, string[] lines)
         {
             try
             {
@@ -134,7 +135,7 @@ namespace Vaccination
     }
     public class Patient
     {
-        public int Personnummer;
+        public DateOnly Personnummer;
         public string LastFourDigits;
         public string FirstName;
         public string Lastname;
@@ -149,7 +150,7 @@ namespace Vaccination
             if (elements != null && elements.Count == 6)
             {
                 var personnummer = ParseDate(elements[0]);
-                int birthDate = int.Parse(personnummer[0]);
+                DateOnly birthDate = DateOnly.ParseExact(personnummer[0], "yyyyMMdd");
                 string lastFourDigits = personnummer[1];
                 string firstName = elements[2];
                 string lastName = elements[1];
@@ -231,7 +232,6 @@ namespace Vaccination
     public class Program
     {
         private static List<Patient> patients = new List<Patient>();
-        private static string csvPath = @"C:\Windows\Temp\Contacts.csv";
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
@@ -265,7 +265,7 @@ namespace Vaccination
                 {
                     List<string> input = FileIo.ReadFile(PathIn);
                     string[] output = CreateVaccinationOrder(input.ToArray(), AvailableVaccineDoses, VaccinateMinors);
-                    FileIo.WriteFile(PathOut, input);
+                    FileIo.WriteFile(PathOut, output);
                 }
                 //Ändra antal vaccindoser
                 else if (choice == 1)
@@ -335,13 +335,7 @@ namespace Vaccination
         {
             var vaccinationOrder = new List<string>();
             var patients = new List<Patient>();
-            DateTime DateTimeNow = DateTime.Now;
-
-            int DateMinusEighteenYears = int.Parse(
-                    (DateTimeNow.Year - 18).ToString() 
-                    + DateTimeNow.Month.ToString() 
-                    + DateTimeNow.Day.ToString()
-                );
+            var DateEighteenYearsAgo = DateOnly.FromDateTime(DateTime.Now).AddYears(-18);
 
             foreach (var pat in input)
             {
@@ -352,12 +346,15 @@ namespace Vaccination
 
             for (int i = 0; i < patients.Count(); i++)
             {
-                if (patients[i].Personnummer > DateMinusEighteenYears && vaccinateChildren)
+                if (patients[i].Personnummer > DateEighteenYearsAgo && vaccinateChildren)
                 {
                     patients.RemoveAt(i);
                 }
             }
-            patients = patients.OrderByDescending(p => p.HealthcareWorker).ThenByDescending(p => p.Personnummer).ThenByDescending(p => p.RiskGroup).ToList<Patient>();
+            patients = patients.OrderByDescending(p => p.HealthcareWorker)
+                .ThenByDescending(p => p.Personnummer)
+                .ThenByDescending(p => p.RiskGroup)
+                .ToList<Patient>();
 
             foreach (var person in patients)
             {
