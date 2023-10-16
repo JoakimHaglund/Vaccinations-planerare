@@ -89,7 +89,7 @@ namespace Vaccination
                 }
                 else
                 {
-                    Console.WriteLine("Mappen finns inte");
+                    Console.WriteLine("Katalogen finns inte");
                 }
             }
         }
