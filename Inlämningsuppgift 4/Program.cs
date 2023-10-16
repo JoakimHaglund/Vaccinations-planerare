@@ -59,7 +59,7 @@ namespace Vaccination
             }
             catch
             {
-                Console.WriteLine("Felaktigt datum");
+                Console.WriteLine("Felaktigt datum!");
                 return null;
             }
         }
@@ -102,7 +102,7 @@ namespace Vaccination
                 }
                 else
                 {
-                    Console.WriteLine("Katalogen finns inte");
+                    Console.WriteLine("Katalogen finns inte!");
                 }
             }
         }
@@ -115,11 +115,11 @@ namespace Vaccination
             }
             catch (DirectoryNotFoundException)
             {
-                Console.WriteLine("FEL: Katalogen finns inte!");
+                Console.WriteLine("Katalogen finns inte!");
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("FEL: Kunde inte hitta filen!");
+                Console.WriteLine("Kunde inte hitta filen!");
             }
             catch
             {
@@ -136,14 +136,13 @@ namespace Vaccination
             }
             catch (DirectoryNotFoundException)
             {
-                Console.WriteLine("FEL: Filsökväg kunde inte hittas!");
+                Console.WriteLine("Filsökväg kunde inte hittas!");
             }
             catch
             {
                 Console.WriteLine("Fel vid filläsning!");
             }
         }
-
     }
     public class Patient
     {
@@ -231,7 +230,6 @@ namespace Vaccination
             {
                 personnummer[0] = "19" + personnummer[0];
             }
-
             return personnummer;
         }
         public static bool? ParseToBool(string input)
@@ -292,14 +290,12 @@ namespace Vaccination
             int AvailableVaccineDoses = 0;
             while (true)
             {
-
                 Console.WriteLine("Huvudmeny");
                 Console.WriteLine("---------");
                 Console.WriteLine("Antal tillgängliga vaccindoser: " + AvailableVaccineDoses);
                 Console.WriteLine("Vaccinering under 18 år: " + (VaccinateMinors ? "Ja" : "Nej"));
                 Console.WriteLine("Indatafil: " + PathIn);
                 Console.WriteLine("Utdatafil: " + PathOut);
-
 
                 int choice = ShowMenu("Vad vill du göra?", new List<string>
                 {
@@ -325,27 +321,22 @@ namespace Vaccination
                     }
                     Console.ReadLine();
                 }
-
                 else if (choice == 1)
                 {
                     AvailableVaccineDoses = ChangeVaccinationDoses();
                 }
-
                 else if (choice == 2)
                 {
                     VaccinateMinors = ChangeVaccinationSetting();
                 }
-
                 else if (choice == 3)
                 {
                     PathIn = FileIo.ReadFilePath();
                 }
-
                 else if (choice == 4)
                 {
                     PathOut = FileIo.ReadFilePath(false);
                 }
-
                 else
                 {
                     Console.WriteLine();
@@ -355,7 +346,6 @@ namespace Vaccination
                 Console.Clear();
             }
         }
-
         public static int ChangeVaccinationDoses()
         {
             Console.WriteLine("Ändra antal vaccindoser");
@@ -363,26 +353,20 @@ namespace Vaccination
             int vaccinationDoses = ValidateInput.ReadInt("Ange nytt antal doser: ");
             Console.WriteLine($"Du angav vaccinationDoser: {vaccinationDoses}");
             return vaccinationDoses;
-
         }
-
         public static bool ChangeVaccinationSetting()
         {
             bool newSetting = AskForVaccinationSetting();
             Console.WriteLine("Inställningen har ändrats till: " + (newSetting ? "Ja" : "Nej"));
             return newSetting;
-
         }
-
         public static bool AskForVaccinationSetting()
         {
             var options = new List<string> { "Ja", "Nej" };
             int input = ShowMenu("Ska personer under 18 år vaccineras? (Ja/Nej)", options);
 
             return input == 0;
-
         }
-
         public static string[] CreateVaccinationOrder(string[] input, int doses, bool vaccinateChildren)
         {
             var vaccinationOrder = new List<string>();
@@ -437,10 +421,8 @@ namespace Vaccination
                     return null;
                 }
             }
-
             return vaccinationOrder.ToArray();
         }
-
         public static int ShowMenu(string prompt, IEnumerable<string> options)
         {
             if (options == null || !options.Any())
