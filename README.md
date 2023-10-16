@@ -11,11 +11,11 @@ Beskrivning av programmet.
   * Vid inläsning av sökväg till utdatafil: be om ny inmatning om den angivna mappen inte finns.
 
 ### Klass - Filhantering (FileIo)
-- [ ] Skapa metod för att spara csv fil.
-- [ ] Skapa metod för att läsa csv fil.
+- [x] Skapa metod för att spara csv fil.
+- [x] Skapa metod för att läsa csv fil.
   * Vid inläsning av CSV-fil: skriv ut ett felmeddelande för varje felaktig rad i CSV-filen och återgå till huvudmenyn istället för att skapa en prioritetsordning.
-- [ ] Skapa metod för att konventera från klassobjekt till csv format.
-- [ ] Skapa metod för att konventera från csv format till klassobjekt.
+- [x] Skapa metod för att konventera från klassobjekt till csv format.
+- [x] Skapa metod för att konventera från csv format till klassobjekt.
 - [x] Skapa metod för att välja fil.
 - [x] Skapa metod för att välja map.
 
@@ -33,9 +33,9 @@ Beskrivning av programmet.
 - [x] Visa information om filsökvägar, antal vaccindoser och vaccinering av minderåriga.
 - [x] Skapa alternativ för att välja antal tillgängliga vaccindoser.
 - [x] Skapa alternativ för att välja vaccinering av minderåriga.
-- [ ] Skapa alternativ för att ändra indatafil.
-- [ ] Skapa alternativ för att ändra utdatafil.
-- [ ] Implementera prioritetsordning.
+- [x] Skapa alternativ för att ändra indatafil.
+- [x] Skapa alternativ för att ändra utdatafil.
+- [x] Implementera prioritetsordning.
 
     **Regler för prioritetsordning:**
 

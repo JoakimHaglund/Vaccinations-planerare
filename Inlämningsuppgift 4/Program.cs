@@ -23,15 +23,15 @@ namespace Vaccination
                 }
                 catch (OverflowException)
                 {
-                    Console.WriteLine("Value out of range!");
+                    Console.WriteLine("Värde utanför intervallet!");
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Value has the wrong format!");
+                    Console.WriteLine("Värdet har fel format, var vänlig ange heltal!");
                 }
                 catch
                 {
-                    Console.WriteLine("Invalid value!");
+                    Console.WriteLine("Felaktigt värde!");
                 }
             }
         }
@@ -47,7 +47,7 @@ namespace Vaccination
                 }
                 catch
                 {
-                    Console.WriteLine("Invalid value!");
+                    Console.WriteLine("Felaktigt värde!");
                 }
             }
         }
@@ -58,7 +58,7 @@ namespace Vaccination
         {
             while (true)
             {
-                Console.Write("Enter fileName: ");
+                Console.Write("Ange filnamn: ");
                 string path = Console.ReadLine();
                 int last = path.LastIndexOf('\\');
                 string dirPath = "";
@@ -90,7 +90,7 @@ namespace Vaccination
                 }
                 else
                 {
-                    Console.WriteLine("Mappen finns inte");
+                    Console.WriteLine("Katalogen finns inte");
                 }
             }
         }
@@ -103,15 +103,15 @@ namespace Vaccination
             }
             catch (DirectoryNotFoundException)
             {
-                Console.WriteLine("ERROR: Directory not found!");
+                Console.WriteLine("FEL: Katalogen finns inte!");
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("ERROR: File not found!");
+                Console.WriteLine("FEL: Kunde inte hitta filen!");
             }
             catch
             {
-                Console.WriteLine("Error in file read");
+                Console.WriteLine("Fel vid filläsning!");
             }
             return null;
         }
@@ -120,15 +120,15 @@ namespace Vaccination
             try
             {
                 File.WriteAllLines(path, lines);
-                Console.WriteLine("Files Saved to: " + path);
+                Console.WriteLine("Fil sparad till: " + path);
             }
             catch (DirectoryNotFoundException)
             {
-                Console.WriteLine("ERROR: Directory not found!");
+                Console.WriteLine("FEL: Filsökväg kunde inte hittas!");
             }
             catch
             {
-                Console.WriteLine("Error in file write");
+                Console.WriteLine("Fel vid filläsning!");
             }
         }
 
@@ -173,22 +173,15 @@ namespace Vaccination
             {
                 return null;
             }
-            //Konventera till Patient objekt
-            //parse to list - ta in en string och spotta ut en lista
-            //ParseDate() - på första elementert av listan
-            //ParseToBool() - på 3 sista elementen av listan
-            //skapa sedan ett nytt Patient
+
         }
         public static List<string> ParseDate(string date)
         {
             var personnummer = new List<string>();
-            //Needs to check year string lenght - if 10 chars -> add year
-            //if there's no '-' for last four digits then we need to handle that
-            //perhaps return as list so we can seperate the birth date and last 4 digits
             int numOfHypens = date.Count(c => (c == '-'));
             if (numOfHypens > 1)
             {
-                Console.WriteLine("Wrong format!");
+                Console.WriteLine("Fel format!");
                 return null;
             }
             if (date.Contains('-'))
@@ -260,38 +253,38 @@ namespace Vaccination
                     "Ändra utdatafil",
                     "Avsluta"
                 });
-                //Skapa prioritetsordning
+
                 if (choice == 0)
                 {
                     List<string> input = FileIo.ReadFile(PathIn);
                     string[] output = CreateVaccinationOrder(input.ToArray(), AvailableVaccineDoses, VaccinateMinors);
                     FileIo.WriteFile(PathOut, output);
                 }
-                //Ändra antal vaccindoser
+
                 else if (choice == 1)
                 {
                     AvailableVaccineDoses = ChangeVaccinationDoses();
                 }
-                //Ändra åldersgräns
+
                 else if (choice == 2)
                 {
                     VaccinateMinors = ChangeVaccinationSetting();
                 }
-                //Ändra indatafil
+
                 else if (choice == 3)
                 {
                     PathIn = FileIo.ReadFilePath();
                 }
-                //Ändra utdatafil
+
                 else if (choice == 4)
                 {
                     PathOut = FileIo.ReadFilePath(false);
                 }
-                //Avsluta
+
                 else
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Hejdå!");
+                    Console.WriteLine("Live long and prosper!");
                     break;
                 }
                 Console.Clear();
@@ -324,13 +317,7 @@ namespace Vaccination
             return input == 0;
 
         }
-        // Create the lines that should be saved to a CSV file after creating the vaccination order.
-        //
-        // Parameters:
-        //
-        // input: the lines from a CSV file containing population information
-        // doses: the number of vaccine doses available
-        // vaccinateChildren: whether to vaccinate people younger than 18
+
         public static string[] CreateVaccinationOrder(string[] input, int doses, bool vaccinateChildren)
         {
             var vaccinationOrder = new List<string>();
@@ -341,8 +328,6 @@ namespace Vaccination
             {
                 patients.Add(Patient.AddPerson(pat));
             }
-            // sort by  health worker, age, risk grp -> all else?
-            //
 
             for (int i = 0; i < patients.Count(); i++)
             {
@@ -364,7 +349,7 @@ namespace Vaccination
                 {
                     vaccineDoses = 1;
                 }
-                if (vaccineDoses  <= doses)
+                if (vaccineDoses <= doses)
                 {
                     vaccinationOrder.Add(
                         person.Personnummer.ToString() +
@@ -384,10 +369,6 @@ namespace Vaccination
                     break;
                 }
             }
-            // Replace with your own code.
-            //create list of patient objects
-            //use patient list to create vaccine order
-            // turn it into a list of csv strings
 
             return vaccinationOrder.ToArray();
         }
