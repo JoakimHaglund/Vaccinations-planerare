@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Vaccination
 {
@@ -77,7 +77,7 @@ namespace Vaccination
         {
             while (true)
             {
-                Console.WriteLine(  );
+                Console.WriteLine();
                 Console.WriteLine("(Ange exit för att för att avsluta)");
                 Console.Write("Ange filnamn: ");
                 string path = Console.ReadLine();
@@ -270,8 +270,8 @@ namespace Vaccination
                 return patients;
             }
         }
-        
-        
+
+
     }
     public class Program
     {
@@ -295,6 +295,7 @@ namespace Vaccination
                 int choice = ShowMenu("Vad vill du göra?", new List<string>
                 {
                     "Skapa prioritetsordning",
+                    "Schemalägg vaccinationer",
                     "Ändra antal vaccindoser",
                     "Ändra åldersgräns",
                     "Ändra indatafil",
@@ -318,13 +319,17 @@ namespace Vaccination
                 }
                 else if (choice == 1)
                 {
-                    AvailableVaccineDoses = ChangeVaccinationDoses();
+                    ScheduleVaccinations();
                 }
                 else if (choice == 2)
                 {
-                    VaccinateMinors = ChangeVaccinationSetting();
+                    AvailableVaccineDoses = ChangeVaccinationDoses();
                 }
                 else if (choice == 3)
+                {
+                    VaccinateMinors = ChangeVaccinationSetting();
+                }
+                else if (choice == 4)
                 {
                     string temp = FileIo.ReadFilePath();
                     if (temp != null)
@@ -332,7 +337,7 @@ namespace Vaccination
                         PathIn = temp;
                     }
                 }
-                else if (choice == 4)
+                else if (choice == 5)
                 {
                     string temp = FileIo.ReadFilePath(false);
                     if (temp != null)
@@ -349,6 +354,14 @@ namespace Vaccination
                 Console.Clear();
             }
         }
+        public static int ScheduleVaccinations()
+        {
+            Console.WriteLine("Schemalägg vaccinationer");
+            Console.WriteLine("-----------------------");
+            Console.WriteLine("Mata in blankrad för att välja standardvärde.");
+            Console.WriteLine();
+
+        }
         public static int ChangeVaccinationDoses()
         {
             Console.WriteLine("Ändra antal vaccindoser");
@@ -357,6 +370,7 @@ namespace Vaccination
             Console.WriteLine($"Du angav vaccinationDoser: {vaccinationDoses}");
             return vaccinationDoses;
         }
+
         public static bool ChangeVaccinationSetting()
         {
             bool newSetting = AskForVaccinationSetting();
