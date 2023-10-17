@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Vaccination
 {
-    public class ValidateInput
+    public class ValidateData
     {
         public static int ReadInt(string question)
         {
@@ -45,6 +45,29 @@ namespace Vaccination
             {
                 Console.WriteLine("Felaktigt datum!");
                 return null;
+            }
+        }
+        public static Patient CheckForNull(Patient patient)
+        {
+            if (patient.HealthcareWorker == null)
+            {
+                return null;
+            }
+            else if (patient.RiskGroup == null)
+            {
+                return null;
+            }
+            else if (patient.HasBeenInfected == null)
+            {
+                return null;
+            }
+            else if (patient.Personnummer == null)
+            {
+                return null;
+            }
+            else
+            {
+                return patient;
             }
         }
     }
@@ -128,68 +151,9 @@ namespace Vaccination
             }
         }
     }
-    public class Patient
+    public class Parser
     {
-        public DateOnly? Personnummer;
-        public string LastFourDigits;
-        public string FirstName;
-        public string Lastname;
-        public bool? HealthcareWorker;
-        public bool? RiskGroup;
-        public bool? HasBeenInfected;
-
-        public static Patient AddPerson(string input)
-        {
-            List<string> elements = ParseToList(input);
-
-            if (elements != null && elements.Count == 6)
-            {
-                var personnummer = ParseDate(elements[0]);
-
-                return new Patient
-                {
-                    Personnummer = ValidateInput.Date(personnummer[0]),
-                    LastFourDigits = personnummer[1],
-                    FirstName = elements[2],
-                    Lastname = elements[1],
-                    HealthcareWorker = ParseToBool(elements[3]),
-                    RiskGroup = ParseToBool(elements[4]),
-                    HasBeenInfected = ParseToBool(elements[5])
-                };
-            }
-            else
-            {
-                return null;
-            }
-        }
-        public static List<Patient> AddPersons(string[] input)
-        {
-            var patients = new List<Patient>();
-            bool abort = false;
-            for (int i = 0; i < input.Length; i++)
-            {
-                var patient = CheckForNull(AddPerson(input[i]));
-
-                if (patient != null)
-                {
-                    patients.Add(patient);
-                }
-                else
-                {
-                    Console.WriteLine($"Läsfel på rad {i}");
-                    abort = true;
-                }
-            }
-            if (abort)
-            {
-                return null;
-            }
-            else
-            {
-                return patients;
-            }
-        }
-        public static List<string> ParseDate(string date)
+        public static List<string> Personnummer(string date)
         {
             var personnummer = new List<string>();
             int numOfHypens = date.Count(c => (c == '-'));
@@ -216,7 +180,7 @@ namespace Vaccination
             }
             return personnummer;
         }
-        public static bool? ParseToBool(string input)
+        public static bool? ToBool(string input)
         {
             if (input == "1" || input == "0")
             {
@@ -224,7 +188,7 @@ namespace Vaccination
             }
             return null;
         }
-        public static List<string> ParseToList(string input)
+        public static List<string> ToList(string input)
         {
 
             string[] elements = input.Split(',');
@@ -238,29 +202,70 @@ namespace Vaccination
                 return null;
             }
         }
-        public static Patient CheckForNull(Patient patient)
+    }
+    public class Patient
+    {
+        public DateOnly? Personnummer;
+        public string LastFourDigits;
+        public string FirstName;
+        public string Lastname;
+        public bool? HealthcareWorker;
+        public bool? RiskGroup;
+        public bool? HasBeenInfected;
+
+        public static Patient AddPerson(string input)
         {
-            if (patient.HealthcareWorker == null)
+            List<string> elements = Parser.ToList(input);
+
+            if (elements != null && elements.Count == 6)
+            {
+                var personnummer = Parser.Personnummer(elements[0]);
+
+                return new Patient
+                {
+                    Personnummer = ValidateData.Date(personnummer[0]),
+                    LastFourDigits = personnummer[1],
+                    FirstName = elements[2],
+                    Lastname = elements[1],
+                    HealthcareWorker = Parser.ToBool(elements[3]),
+                    RiskGroup = Parser.ToBool(elements[4]),
+                    HasBeenInfected = Parser.ToBool(elements[5])
+                };
+            }
+            else
             {
                 return null;
             }
-            else if (patient.RiskGroup == null)
+        }
+        public static List<Patient> AddPersons(string[] input)
+        {
+            var patients = new List<Patient>();
+            bool abort = false;
+            for (int i = 0; i < input.Length; i++)
             {
-                return null;
+                var patient = ValidateData.CheckForNull(AddPerson(input[i]));
+
+                if (patient != null)
+                {
+                    patients.Add(patient);
+                }
+                else
+                {
+                    Console.WriteLine($"Läsfel på rad {i}");
+                    abort = true;
+                }
             }
-            else if (patient.HasBeenInfected == null)
-            {
-                return null;
-            }
-            else if (patient.Personnummer == null)
+            if (abort)
             {
                 return null;
             }
             else
             {
-                return patient;
+                return patients;
             }
         }
+        
+        
     }
     public class Program
     {
@@ -334,7 +339,7 @@ namespace Vaccination
         {
             Console.WriteLine("Ändra antal vaccindoser");
             Console.WriteLine("-----------------------");
-            int vaccinationDoses = ValidateInput.ReadInt("Ange nytt antal doser: ");
+            int vaccinationDoses = ValidateData.ReadInt("Ange nytt antal doser: ");
             Console.WriteLine($"Du angav vaccinationDoser: {vaccinationDoses}");
             return vaccinationDoses;
         }
@@ -580,7 +585,6 @@ namespace Vaccination
                 "20010101-2222,Svennson,Sven,1,0,0",
                 "20000101-1111,Mikaelsson,Kerstin,0,1,0",
                 "19950101-1111,Bobsson,Sven,0,0,1"
-
             };
             int doses = 100;
             bool vaccinateChildren = false;
