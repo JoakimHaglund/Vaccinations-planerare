@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Vaccination
 {
@@ -301,7 +301,7 @@ namespace Vaccination
                     }
                     else
                     {
-                        Console.WriteLine("Reslutatet har inte sparats!");
+                        Console.WriteLine("Resultatet har inte sparats!");
                     }
                     Console.ReadLine();
                 }
@@ -335,7 +335,7 @@ namespace Vaccination
             Console.WriteLine("Ändra antal vaccindoser");
             Console.WriteLine("-----------------------");
             int vaccinationDoses = ValidateInput.ReadInt("Ange nytt antal doser: ");
-            Console.WriteLine($"Du angav vaccinationDoser: {vaccinationDoses}");
+            Console.WriteLine($"Du angav vaccinationdoser: {vaccinationDoses}");
             return vaccinationDoses;
         }
         public static bool ChangeVaccinationSetting()
