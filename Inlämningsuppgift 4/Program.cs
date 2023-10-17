@@ -77,6 +77,8 @@ namespace Vaccination
         {
             while (true)
             {
+                Console.WriteLine(  );
+                Console.WriteLine("(Ange exit för att för att avsluta)");
                 Console.Write("Ange filnamn: ");
                 string path = Console.ReadLine();
                 int last = path.LastIndexOf('\\');
@@ -110,6 +112,10 @@ namespace Vaccination
                 else
                 {
                     Console.WriteLine("Katalogen finns inte!");
+                }
+                if (path.ToLower() == "exit")
+                {
+                    return null;
                 }
             }
         }
@@ -320,11 +326,19 @@ namespace Vaccination
                 }
                 else if (choice == 3)
                 {
-                    PathIn = FileIo.ReadFilePath();
+                    string temp = FileIo.ReadFilePath();
+                    if (temp != null)
+                    {
+                        PathIn = temp;
+                    }
                 }
                 else if (choice == 4)
                 {
-                    PathOut = FileIo.ReadFilePath(false);
+                    string temp = FileIo.ReadFilePath(false);
+                    if (temp != null)
+                    {
+                        PathOut = temp;
+                    }
                 }
                 else
                 {
