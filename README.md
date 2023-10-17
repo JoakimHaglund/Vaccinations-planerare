@@ -55,7 +55,7 @@ Beskrivning av programmet.
 
 ## Info om iCalendar formatet
 _Här kommer jag lägga till viktig/användbar information om iCalendar formatet allteftersom jag läser på om det_
-
+https://datatracker.ietf.org/doc/html/rfc5545#page-34
 <sub>Fungerande exempel från [Wikipedia](https://en.wikipedia.org/wiki/ICalendar)</sub>
 ```
 BEGIN:VCALENDAR
