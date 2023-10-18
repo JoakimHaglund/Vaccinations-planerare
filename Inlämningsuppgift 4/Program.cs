@@ -71,7 +71,6 @@ namespace Vaccination
         {
             while (true)
             {
-                Console.WriteLine();
                 Console.WriteLine("(Ange \"exit\" för att för att avsluta)");
                 Console.Write("Ange filnamn: ");
                 string path = Console.ReadLine();
@@ -291,6 +290,7 @@ namespace Vaccination
 
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine("Huvudmeny");
                 Console.WriteLine("---------");
                 Console.WriteLine("Antal tillgängliga vaccindoser: " + AvailableVaccineDoses);
@@ -307,6 +307,8 @@ namespace Vaccination
                     "Ändra utdatafil",
                     "Avsluta"
                 });
+                
+                Console.WriteLine();
 
                 if (choice == 0)
                 {
@@ -339,11 +341,9 @@ namespace Vaccination
                 }
                 else
                 {
-                    Console.WriteLine();
                     Console.WriteLine("Live long and prosper!");
                     break;
                 }
-                Console.Clear();
             }
         }
         public static void CreateAndSaveVaccinationOrder(string pathIn, string pathOut, int vaccineDoses, bool vaccinateMinors)
@@ -368,19 +368,17 @@ namespace Vaccination
             Console.WriteLine("Ändra antal vaccindoser");
             Console.WriteLine("-----------------------");
             int vaccinationDoses = ValidateData.ReadInt("Ange nytt antal doser: ");
-            Console.WriteLine($"Du angav vaccinationDoser: {vaccinationDoses}");
             return vaccinationDoses;
         }
         public static bool ChangeVaccinationSetting()
         {
             bool newSetting = AskForVaccinationSetting();
-            Console.WriteLine("Inställningen har ändrats till: " + (newSetting ? "Ja" : "Nej"));
             return newSetting;
         }
         public static bool AskForVaccinationSetting()
         {
             var options = new List<string> { "Ja", "Nej" };
-            int input = ShowMenu("Ska personer under 18 år vaccineras? (Ja/Nej)", options);
+            int input = ShowMenu("Ska personer under 18 år vaccineras?", options);
 
             return input == 0;
         }
