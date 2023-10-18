@@ -49,6 +49,7 @@ namespace Vaccination
             isNull = string.IsNullOrEmpty(patient.LastFourDigits);
             isNull = string.IsNullOrEmpty(patient.FirstName);
             isNull = string.IsNullOrEmpty(patient.FirstName);
+
             isNull = patient.HealthcareWorker == null;
             isNull = patient.RiskGroup == null;
             isNull = patient.HasBeenInfected == null;
@@ -71,35 +72,36 @@ namespace Vaccination
             while (true)
             {
                 Console.WriteLine();
-                Console.WriteLine("(Ange exit för att för att avsluta)");
+                Console.WriteLine("(Ange \"exit\" för att för att avsluta)");
                 Console.Write("Ange filnamn: ");
                 string path = Console.ReadLine();
+
                 int last = path.LastIndexOf('\\');
-                string dirPath = "";
+                string directoryPath = "";
+
                 if (last != -1)
                 {
-                    dirPath = path.Substring(0, last);
+                    directoryPath = path.Substring(0, last);
                 }
                 else
                 {
                     Console.WriteLine("Felaktig filsökväg!");
                 }
-                if (Directory.Exists(dirPath))
+
+                if (Directory.Exists(directoryPath))
                 {
-                    if (checkFileExist)
+                    if (!checkFileExist)
                     {
-                        if (File.Exists(path))
-                        {
-                            return path;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Filen finns inte!");
-                        }
+                        return path;
+                    }
+
+                    if (File.Exists(path))
+                    {
+                        return path;
                     }
                     else
                     {
-                        return path;
+                        Console.WriteLine("Filen finns inte!");
                     }
                 }
                 else
