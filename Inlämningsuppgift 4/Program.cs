@@ -211,69 +211,6 @@ namespace Vaccination
         }
     }
 
-    public class ICalendar
-    {
-        public string ProdId;
-        public List<ICalendarEvent> Events;
-        public DateTime Stamp;
-        public DateTime CurrentEvent;
-        public ICalendarEvent CreateEvent(DateTime start, DateTime end, string summary)
-        {
-            return new ICalendarEvent
-            {
-                Uid = DateTime.Now.ToString("yyyyMMddhhmmss") + "@BatIsBackOnThe.Menu",
-                Stamp = DateTime.Now,
-                EventStart = start,
-                EventEnd = end,
-                Summary = summary
-            };
-            
-        }
-        public List<ICalendarEvent> CreateEvents(string[] input)
-        {
-            // skapa event
-            return null;
-        }
-        public string[] CreateCalendarOutput()
-        {
-            var output = new List<string>();
-            output.Add("BEGIN:VCALENDAR");
-            output.Add("PRODID:-//hacksw/handcal//NONSGML v1.0//EN");//Ändra till vår id
-            foreach (var evnt in Events)
-            {//Datum hantering behöves
-                output.Add("BEGIN: VEVENT");
-                output.Add("UID:" + evnt.Uid);
-                output.Add("DTSTAMP:" + evnt.Stamp);
-                output.Add("DTSTART:" + evnt.EventStart);
-                output.Add("DTEND:" + evnt.EventEnd);
-                output.Add("SUMMARY:" + evnt.Summary);
-                output.Add("END: VEVENT");
-            }
-            output.Add("END:VCALENDAR");
-            return output.ToArray();
-        }
- /*     BEGIN:VCALENDAR
-        VERSION:2.0
-        PRODID:-//hacksw/handcal//NONSGML v1.0//EN
-                BEGIN:VEVENT
-                UID:ui2d1 @example.com
-                DTSTAMP:1997/07/14 T 17 00 00 
-                DTSTART:19970714 T 170000 Z
-                DTEND:19970715T040000Z
-                SUMMARY: kalle och erik
-                END:VEVENT
-        END:VCALENDAR
- */
-        
-    }
-    public class ICalendarEvent
-    {
-        public string Uid;
-        public DateTime Stamp;
-        public DateTime EventStart;
-        public DateTime EventEnd;
-        public string Summary;
-    }
     public class Patient
     {
         public DateOnly? Personnummer;
@@ -335,8 +272,6 @@ namespace Vaccination
                 return patients;
             }
         }
-
-
     }
     public class Program
     {
@@ -360,7 +295,6 @@ namespace Vaccination
                 int choice = ShowMenu("Vad vill du göra?", new List<string>
                 {
                     "Skapa prioritetsordning",
-                    "Schemalägg vaccinationer",
                     "Ändra antal vaccindoser",
                     "Ändra åldersgräns",
                     "Ändra indatafil",
@@ -384,24 +318,13 @@ namespace Vaccination
                 }
                 else if (choice == 1)
                 {
-                    ScheduleVaccinations();
-
-                    //Remove later
-                    var evnt = new ICalendar();
-                    var test = evnt.CreateEvent(DateTime.Now, DateTime.Now, "lorem ipsum");
-
-                    Console.WriteLine();
-                    Console.ReadLine();
+                    AvailableVaccineDoses = ChangeVaccinationDoses();
                 }
                 else if (choice == 2)
                 {
-                    AvailableVaccineDoses = ChangeVaccinationDoses();
-                }
-                else if (choice == 3)
-                {
                     VaccinateMinors = ChangeVaccinationSetting();
                 }
-                else if (choice == 4)
+                else if (choice == 3)
                 {
                     string temp = FileIo.ReadFilePath();
                     if (temp != null)
@@ -409,7 +332,7 @@ namespace Vaccination
                         PathIn = temp;
                     }
                 }
-                else if (choice == 5)
+                else if (choice == 4)
                 {
                     string temp = FileIo.ReadFilePath(false);
                     if (temp != null)
@@ -425,14 +348,6 @@ namespace Vaccination
                 }
                 Console.Clear();
             }
-        }
-        public static int ScheduleVaccinations()
-        {
-            Console.WriteLine("Schemalägg vaccinationer");
-            Console.WriteLine("-----------------------");
-            Console.WriteLine("Mata in blankrad för att välja standardvärde.");
-            Console.WriteLine();
-            return 0;
         }
         public static int ChangeVaccinationDoses()
         {
