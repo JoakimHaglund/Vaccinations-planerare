@@ -123,11 +123,11 @@ namespace Vaccination
             }
             catch (DirectoryNotFoundException)
             {
-                Console.WriteLine("Katalogen finns inte!");
+                Console.WriteLine("Katalogen kunde inte hittas!");
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("Kunde inte hitta filen!");
+                Console.WriteLine("Filen kunde inte hittas!");
             }
             catch
             {
