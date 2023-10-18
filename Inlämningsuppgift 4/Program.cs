@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Vaccination
 {
@@ -312,7 +311,7 @@ namespace Vaccination
                     }
                     else
                     {
-                        Console.WriteLine("Reslutatet har inte sparats!");
+                        Console.WriteLine("Resultatet har inte sparats!");
                     }
                     Console.ReadLine();
                 }
