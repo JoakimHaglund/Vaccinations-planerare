@@ -74,6 +74,7 @@ namespace Vaccination
                 Console.WriteLine("(Ange \"exit\" för att för att avsluta)");
                 Console.Write("Ange filnamn: ");
                 string path = Console.ReadLine();
+                Console.WriteLine();
 
                 int last = path.LastIndexOf('\\');
                 string directoryPath = "";
@@ -352,12 +353,21 @@ namespace Vaccination
 
             if (input != null)
             {
+                bool shouldWrite = true;
                 string[] output = CreateVaccinationOrder(input.ToArray(), vaccineDoses, vaccinateMinors);
                 if (output != null)
                 {
-                    FileIo.WriteFile(pathOut, output);
+                    if (File.Exists(pathOut))
+                    {
+                        shouldWrite = AskYesNoQuestion($"{pathOut} finns redan! Vill du skriva över filen?");
+                    }
+                    if (shouldWrite)
+                    {
+                        FileIo.WriteFile(pathOut, output);
+                    }
                 }
-                else
+
+                if (output == null || !shouldWrite)
                 {
                     Console.WriteLine("Resultatet har inte sparats!");
                 }
@@ -372,13 +382,13 @@ namespace Vaccination
         }
         public static bool ChangeVaccinationSetting()
         {
-            bool newSetting = AskForVaccinationSetting();
+            bool newSetting = AskYesNoQuestion("Ska personer under 18 år vaccineras?");
             return newSetting;
         }
-        public static bool AskForVaccinationSetting()
+        public static bool AskYesNoQuestion(string question)
         {
             var options = new List<string> { "Ja", "Nej" };
-            int input = ShowMenu("Ska personer under 18 år vaccineras?", options);
+            int input = ShowMenu(question, options);
 
             return input == 0;
         }
