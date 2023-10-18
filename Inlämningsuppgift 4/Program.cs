@@ -386,6 +386,7 @@ namespace Vaccination
         {
             var vaccinationOrder = new List<string>();
             var patients = new List<Patient>();
+
             var dateNow = DateOnly.FromDateTime(DateTime.Now);
             var dateEighteenYearsAgo = dateNow.AddYears(-18);
 
@@ -403,9 +404,11 @@ namespace Vaccination
                     patients.RemoveAt(i);
                 }
             }
+
             patients = patients.OrderByDescending(p => p.HealthcareWorker)
                 .ThenBy(p => p.BirthDate >= dateNow.AddYears(-65))
                 .ThenByDescending(p => p.RiskGroup)
+                .ThenBy(p => p.BirthDate)
                 .ToList<Patient>();
 
             foreach (var person in patients)
@@ -562,8 +565,9 @@ namespace Vaccination
             // Arrange health / risk / infection
             string[] input =
             {
-                "20000101-1111,Svennson,Bob,0,0,0",
-                "20010101-2222,Svennson,Sven,0,0,0"
+                "19580101-1111,Svennson,Tor,0,0,0",
+                "19590101-1111,Svennson,Erik,0,0,0",
+                "19500101-1111,Svennson,Bob,0,0,0"
             };
             int doses = 10;
             bool vaccinateChildren = false;
@@ -572,9 +576,10 @@ namespace Vaccination
             string[] output = Program.CreateVaccinationOrder(input, doses, vaccinateChildren);
 
             // Assert
-            Assert.AreEqual(2, output.Length);
-            Assert.AreEqual("20000101-1111,Svennson,Bob,2", output[0]);
-            Assert.AreEqual("20010101-2222,Svennson,Sven,2", output[1]);
+            Assert.AreEqual(3, output.Length);
+            Assert.AreEqual("19500101-1111,Svennson,Bob,2", output[0]);
+            Assert.AreEqual("19580101-1111,Svennson,Tor,2", output[1]);
+            Assert.AreEqual("19590101-1111,Svennson,Erik,2", output[2]);
         }
         [TestMethod]
         public void HealthCareWorkerPrioritized()
@@ -595,6 +600,51 @@ namespace Vaccination
             Assert.AreEqual(2, output.Length);
             Assert.AreEqual("19500101-1111,Svennson,Bob,2", output[1]);
             Assert.AreEqual("20010101-2222,Svennson,Sven,2", output[0]);
+        }
+        [TestMethod]
+        public void SortByAgeOver65ThenByRiskGroup()
+        {
+            // Arrange health / risk / infection
+            string[] input =
+            {
+                "19650101-1111,Svennson,Tor,0,1,0",
+                "19590101-1111,Svennson,Erik,0,0,0",
+                "19500101-1111,Svennson,Bob,0,0,0"
+            };
+            int doses = 10;
+            bool vaccinateChildren = false;
+
+            // Act
+            string[] output = Program.CreateVaccinationOrder(input, doses, vaccinateChildren);
+
+            // Assert
+            Assert.AreEqual(3, output.Length);
+            Assert.AreEqual("19500101-1111,Svennson,Bob,2", output[0]);
+            Assert.AreEqual("19650101-1111,Svennson,Tor,2", output[1]);
+            Assert.AreEqual("19590101-1111,Svennson,Erik,2", output[2]);
+
+        }
+        [TestMethod]
+        public void SortHealtcareWorkerByAge()
+        {
+            // Arrange health / risk / infection
+            string[] input =
+            {
+                "19520101-1111,Svennson,Tor,1,0,0",
+                "19540101-1111,Svennson,Erik,0,0,0",
+                "19560101-1111,Svennson,Bob,1,0,0"
+            };
+            int doses = 10;
+            bool vaccinateChildren = false;
+
+            // Act
+            string[] output = Program.CreateVaccinationOrder(input, doses, vaccinateChildren);
+
+            // Assert
+            Assert.AreEqual(3, output.Length);
+            Assert.AreEqual("19520101-1111,Svennson,Tor,2", output[0]);
+            Assert.AreEqual("19560101-1111,Svennson,Bob,2", output[1]);
+            Assert.AreEqual("19540101-1111,Svennson,Erik,2", output[2]);
         }
         [TestMethod]
         public void CheckPrioritizationOrder()
