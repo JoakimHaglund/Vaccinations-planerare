@@ -23,15 +23,11 @@ namespace Vaccination
                 }
                 catch (OverflowException)
                 {
-                    Console.WriteLine("Värde utanför intervallet!");
+                    Console.WriteLine("Värdet är utanför intervallet!");
                 }
                 catch (FormatException)
                 {
                     Console.WriteLine("Värdet har fel format, var vänlig ange heltal!");
-                }
-                catch
-                {
-                    Console.WriteLine("Felaktigt värde!");
                 }
             }
         }
@@ -44,12 +40,17 @@ namespace Vaccination
             }
             catch
             {
-                Console.WriteLine("Felaktigt datum!");
                 return null;
             }
         }
         public static Patient CheckForNull(Patient patient)
         {
+            bool isNull = false;
+
+            isNull = string.IsNullOrEmpty(patient.LastFourDigits);
+            isNull = string.IsNullOrEmpty(patient.FirstName);
+            isNull = string.IsNullOrEmpty(patient.FirstName);
+
             if (patient.HealthcareWorker == null)
             {
                 return null;
@@ -63,6 +64,10 @@ namespace Vaccination
                 return null;
             }
             else if (patient.Personnummer == null)
+            {
+                return null;
+            }
+            else if (isNull)
             {
                 return null;
             }
@@ -357,7 +362,6 @@ namespace Vaccination
             Console.WriteLine($"Du angav vaccinationDoser: {vaccinationDoses}");
             return vaccinationDoses;
         }
-
         public static bool ChangeVaccinationSetting()
         {
             bool newSetting = AskForVaccinationSetting();
