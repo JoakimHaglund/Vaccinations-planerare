@@ -85,7 +85,7 @@ namespace Vaccination
                 }
                 else
                 {
-                    Console.WriteLine("Felaktig filsökväg!");
+                    Console.WriteLine("Filsökvägen kunde inte hittas!");
                 }
 
                 if (Directory.Exists(directoryPath))
@@ -101,12 +101,12 @@ namespace Vaccination
                     }
                     else
                     {
-                        Console.WriteLine("Filen finns inte!");
+                        Console.WriteLine("Filen kunde inte hittas!");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Katalogen finns inte!");
+                    Console.WriteLine("Katalogen kunde inte hittas!");
                 }
                 if (path.ToLower() == "exit")
                 {
@@ -144,7 +144,7 @@ namespace Vaccination
             }
             catch (DirectoryNotFoundException)
             {
-                Console.WriteLine("Filsökväg kunde inte hittas!");
+                Console.WriteLine("Filsökvägen kunde inte hittas!");
             }
             catch
             {
