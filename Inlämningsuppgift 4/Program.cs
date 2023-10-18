@@ -158,11 +158,12 @@ namespace Vaccination
         {
             var personnummer = new List<string>();
             int numOfHypens = date.Count(c => (c == '-'));
+
             if (numOfHypens > 1)
             {
-                Console.WriteLine("Fel format!");
                 return null;
             }
+
             if (date.Contains('-'))
             {
                 personnummer = date.Split('-').ToList();
@@ -170,15 +171,25 @@ namespace Vaccination
             else
             {
                 int split = date.Length - 4;
+
                 string birthDate = date.Substring(0, split);
                 string lastFourDigits = date.Substring(split);
+
                 personnummer.Add(birthDate);
                 personnummer.Add(lastFourDigits);
+
+                return personnummer;
             }
-            if (personnummer[0].Length < 8)
+
+            if (personnummer[0].Length == 6)
             {
                 personnummer[0] = "19" + personnummer[0];
             }
+            else
+            {
+                return null;
+            }
+
             return personnummer;
         }
         public static bool? ToBool(string input)
