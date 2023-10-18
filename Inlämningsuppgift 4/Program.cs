@@ -49,24 +49,12 @@ namespace Vaccination
             isNull = string.IsNullOrEmpty(patient.LastFourDigits);
             isNull = string.IsNullOrEmpty(patient.FirstName);
             isNull = string.IsNullOrEmpty(patient.FirstName);
+            isNull = patient.HealthcareWorker == null;
+            isNull = patient.RiskGroup == null;
+            isNull = patient.HasBeenInfected == null;
+            isNull = patient.Personnummer == null;
 
-            if (patient.HealthcareWorker == null)
-            {
-                return null;
-            }
-            else if (patient.RiskGroup == null)
-            {
-                return null;
-            }
-            else if (patient.HasBeenInfected == null)
-            {
-                return null;
-            }
-            else if (patient.Personnummer == null)
-            {
-                return null;
-            }
-            else if (isNull)
+            if (isNull)
             {
                 return null;
             }
