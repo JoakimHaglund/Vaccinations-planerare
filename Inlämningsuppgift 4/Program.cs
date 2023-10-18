@@ -46,14 +46,14 @@ namespace Vaccination
         {
             bool isNull = false;
 
-            isNull = string.IsNullOrEmpty(patient.LastFourDigits);
+            isNull = string.IsNullOrEmpty(patient.Personnummer);
             isNull = string.IsNullOrEmpty(patient.FirstName);
             isNull = string.IsNullOrEmpty(patient.FirstName);
 
             isNull = patient.HealthcareWorker == null;
             isNull = patient.RiskGroup == null;
             isNull = patient.HasBeenInfected == null;
-            isNull = patient.Personnummer == null;
+            isNull = patient.BirthDate == null;
 
             if (isNull)
             {
@@ -152,7 +152,7 @@ namespace Vaccination
             }
         }
     }
-    public class Parser
+    public class Parse
     {
         public static List<string> Personnummer(string date)
         {
@@ -202,7 +202,6 @@ namespace Vaccination
         }
         public static List<string> ToList(string input)
         {
-
             string[] elements = input.Split(',');
 
             if (elements.Length == 6)
@@ -218,31 +217,31 @@ namespace Vaccination
 
     public class Patient
     {
-        public DateOnly? Personnummer;
-        public string LastFourDigits;
+        public DateOnly? BirthDate;
+        public string Personnummer;
         public string FirstName;
         public string Lastname;
         public bool? HealthcareWorker;
         public bool? RiskGroup;
         public bool? HasBeenInfected;
 
-        public static Patient AddPerson(string input)
+        public static Patient AddPatient(string input)
         {
-            List<string> elements = Parser.ToList(input);
+            List<string> elements = Parse.ToList(input);
 
             if (elements != null && elements.Count == 6)
             {
-                var personnummer = Parser.Personnummer(elements[0]);
+                var personnummer = Parse.Personnummer(elements[0]);
 
                 return new Patient
                 {
-                    Personnummer = ValidateData.Date(personnummer[0]),
-                    LastFourDigits = personnummer[1],
+                    BirthDate = ValidateData.Date(personnummer[0]),
+                    Personnummer = personnummer[0] + "-" + personnummer[1],
                     FirstName = elements[2],
                     Lastname = elements[1],
-                    HealthcareWorker = Parser.ToBool(elements[3]),
-                    RiskGroup = Parser.ToBool(elements[4]),
-                    HasBeenInfected = Parser.ToBool(elements[5])
+                    HealthcareWorker = Parse.ToBool(elements[3]),
+                    RiskGroup = Parse.ToBool(elements[4]),
+                    HasBeenInfected = Parse.ToBool(elements[5])
                 };
             }
             else
@@ -250,13 +249,14 @@ namespace Vaccination
                 return null;
             }
         }
-        public static List<Patient> AddPersons(string[] input)
+        public static List<Patient> AddPatients(string[] input)
         {
             var patients = new List<Patient>();
             bool abort = false;
+
             for (int i = 0; i < input.Length; i++)
             {
-                var patient = ValidateData.CheckForNull(AddPerson(input[i]));
+                var patient = ValidateData.CheckForNull(AddPatient(input[i]));
 
                 if (patient != null)
                 {
@@ -268,6 +268,7 @@ namespace Vaccination
                     abort = true;
                 }
             }
+
             if (abort)
             {
                 return null;
@@ -382,7 +383,7 @@ namespace Vaccination
             var dateNow = DateOnly.FromDateTime(DateTime.Now);
             var dateEighteenYearsAgo = dateNow.AddYears(-18);
 
-            patients = Patient.AddPersons(input);
+            patients = Patient.AddPatients(input);
 
             if (patients == null)
             {
@@ -391,13 +392,13 @@ namespace Vaccination
 
             for (int i = 0; i < patients.Count; i++)
             {
-                if (patients[i].Personnummer > dateEighteenYearsAgo && !vaccinateChildren)
+                if (patients[i].BirthDate > dateEighteenYearsAgo && !vaccinateChildren)
                 {
                     patients.RemoveAt(i);
                 }
             }
             patients = patients.OrderByDescending(p => p.HealthcareWorker)
-                .ThenBy(p => p.Personnummer >= dateNow.AddYears(-65))
+                .ThenBy(p => p.BirthDate >= dateNow.AddYears(-65))
                 .ThenByDescending(p => p.RiskGroup)
                 .ToList<Patient>();
 
@@ -412,9 +413,7 @@ namespace Vaccination
                 if (vaccineDoses <= doses)
                 {
                     vaccinationOrder.Add(
-                        person.Personnummer.Value.ToString("yyyyMMdd") +
-                        "-" +
-                        person.LastFourDigits +
+                        person.Personnummer +
                         "," +
                         person.Lastname +
                         "," +
