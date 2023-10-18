@@ -167,6 +167,7 @@ namespace Vaccination
             if (date.Contains('-'))
             {
                 personnummer = date.Split('-').ToList();
+
             }
             else
             {
@@ -177,15 +178,13 @@ namespace Vaccination
 
                 personnummer.Add(birthDate);
                 personnummer.Add(lastFourDigits);
-
-                return personnummer;
             }
 
             if (personnummer[0].Length == 6)
             {
                 personnummer[0] = "19" + personnummer[0];
             }
-            else
+            else if(personnummer[0].Length < 6 || personnummer[0].Length > 8)
             {
                 return null;
             }
@@ -214,7 +213,6 @@ namespace Vaccination
             }
         }
     }
-
     public class Patient
     {
         public DateOnly? BirthDate;
@@ -284,11 +282,13 @@ namespace Vaccination
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
             string PathIn = @"C:\Windows\Temp\People.csv";
             string PathOut = @"C:\Windows\Temp\Vaccinations.csv";
 
             bool VaccinateMinors = false;
             int AvailableVaccineDoses = 0;
+
             while (true)
             {
                 Console.WriteLine("Huvudmeny");
@@ -310,16 +310,7 @@ namespace Vaccination
 
                 if (choice == 0)
                 {
-                    List<string> input = FileIo.ReadFile(PathIn);
-                    string[] output = CreateVaccinationOrder(input.ToArray(), AvailableVaccineDoses, VaccinateMinors);
-                    if (output != null)
-                    {
-                        FileIo.WriteFile(PathOut, output);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Resultatet har inte sparats!");
-                    }
+                    CreateAndSaveVaccinationOrder(PathIn, PathOut, AvailableVaccineDoses, VaccinateMinors);
                     Console.ReadLine();
                 }
                 else if (choice == 1)
@@ -353,6 +344,23 @@ namespace Vaccination
                     break;
                 }
                 Console.Clear();
+            }
+        }
+        public static void CreateAndSaveVaccinationOrder(string pathIn, string pathOut, int vaccineDoses, bool vaccinateMinors)
+        {
+            List<string> input = FileIo.ReadFile(pathIn);
+
+            if (input != null)
+            {
+                string[] output = CreateVaccinationOrder(input.ToArray(), vaccineDoses, vaccinateMinors);
+                if (output != null)
+                {
+                    FileIo.WriteFile(pathOut, output);
+                }
+                else
+                {
+                    Console.WriteLine("Resultatet har inte sparats!");
+                }
             }
         }
         public static int ChangeVaccinationDoses()
