@@ -25,6 +25,11 @@ namespace ICalendar
             });
 
         }
+        public List<ICalendarEvent> CreateEvents(string[] input)
+        {
+            // skapa event
+            return null;
+        }
         
 
     }
