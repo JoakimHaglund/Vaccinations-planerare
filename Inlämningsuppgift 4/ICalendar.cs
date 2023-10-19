@@ -8,16 +8,33 @@ namespace ICalendar
 {
     public class ICalendar
     {
-        public string ProdId;
+        private string ProdId = "BatSoupCure";
         public List<ICalendarEvent> Events = new List<ICalendarEvent>();
         public DateTime Stamp;
-        public DateTime CurrentEvent;
+        private DateTime currentEvent;
         private Random randomNum = new Random();
+        private TimeOnly startOfWorkDay;//StartTid
+        private TimeOnly endOfWorkDay;//SlutTid
+        private int timePerEvent;//Minutes per event
+        private int simultaneousEvents;//Num of events at a time
+        public ICalendar(
+            DateTime startDateTime, 
+            TimeOnly endTime = new TimeOnly(08,00), 
+            int eventTime = 5, 
+            int eventsAtATime = 2
+            ) 
+        {
+            currentEvent = startDateTime;
+            startOfWorkDay = TimeOnly.FromDateTime(startDateTime);
+            endOfWorkDay = endTime;
+            timePerEvent = eventTime;
+            simultaneousEvents = eventsAtATime;
+        }
         public void CreateEvent(DateTime start, DateTime end, string summary)
         {
             Events.Add(new ICalendarEvent
             {
-                Uid = DateTime.Now.ToString("MMddhhmmss") + randomNum.Next(0, 100) + "@Bat.Is.Back.On.The.Menu",
+                Uid = DateTime.Now.ToString("MMmmddsshh") + randomNum.Next(100, 999) + "@BatIsBack.OnTheMenu",
                 Stamp = DateTime.Now,
                 EventStart = start,
                 EventEnd = end,
@@ -36,7 +53,7 @@ namespace ICalendar
             string DateTimeFormat = "yyyyMMddThhmmss";
             output.Add("BEGIN:VCALENDAR");
             output.Add("VERSION:2.0");
-            output.Add("PRODID:-//hacksw/handcal//NONSGML v1.0//EN");//Ändra till vår id
+            output.Add(ProdId);
             foreach (var evnt in Events)
             {//Datum hantering behöves
                 output.Add("BEGIN:VEVENT");
