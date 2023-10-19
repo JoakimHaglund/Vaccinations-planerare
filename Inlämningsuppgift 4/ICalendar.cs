@@ -30,7 +30,26 @@ namespace ICalendar
             // skapa event
             return null;
         }
-        
+        public string[] CreateCalendarOutput()
+        {
+            var output = new List<string>();
+            string DateTimeFormat = "yyyyMMddThhmmss";
+            output.Add("BEGIN:VCALENDAR");
+            output.Add("VERSION:2.0");
+            output.Add("PRODID:-//hacksw/handcal//NONSGML v1.0//EN");//Ändra till vår id
+            foreach (var evnt in Events)
+            {//Datum hantering behöves
+                output.Add("BEGIN:VEVENT");
+                output.Add("UID:" + evnt.Uid);
+                output.Add("DTSTAMP:" + evnt.Stamp.ToString(DateTimeFormat));
+                output.Add("DTSTART:" + evnt.EventStart.ToString(DateTimeFormat));
+                output.Add("DTEND:" + evnt.EventEnd.ToString(DateTimeFormat));
+                output.Add("SUMMARY:" + evnt.Summary);
+                output.Add("END:VEVENT");
+            }
+            output.Add("END:VCALENDAR");
+            return output.ToArray();
+        }
 
     }
     public struct ICalendarEvent
