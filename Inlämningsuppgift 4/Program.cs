@@ -5,6 +5,7 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using ICalendar;
 
 namespace Vaccination
 {
@@ -282,10 +283,10 @@ namespace Vaccination
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-
+          
             string PathIn = @"C:\Windows\Temp\People.csv";
             string PathOut = @"C:\Windows\Temp\Vaccinations.csv";
-
+            
             bool VaccinateMinors = false;
             int AvailableVaccineDoses = 0;
 
