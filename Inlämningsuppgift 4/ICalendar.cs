@@ -13,6 +13,20 @@ namespace ICalendar
         public DateTime Stamp;
         public DateTime CurrentEvent;
         private Random randomNum = new Random();
+        public void CreateEvent(DateTime start, DateTime end, string summary)
+        {
+            Events.Add(new ICalendarEvent
+            {
+                Uid = DateTime.Now.ToString("MMddhhmmss") + randomNum.Next(0, 100) + "@Bat.Is.Back.On.The.Menu",
+                Stamp = DateTime.Now,
+                EventStart = start,
+                EventEnd = end,
+                Summary = summary
+            });
+
+        }
+        
+
     }
     public struct ICalendarEvent
     {
