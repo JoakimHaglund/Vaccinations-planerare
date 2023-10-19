@@ -48,7 +48,7 @@ namespace Vaccination
 
             isNull = string.IsNullOrEmpty(patient.Personnummer);
             isNull = string.IsNullOrEmpty(patient.FirstName);
-            isNull = string.IsNullOrEmpty(patient.FirstName);
+            isNull = string.IsNullOrEmpty(patient.LastName);
 
             isNull = patient.HealthcareWorker == null;
             isNull = patient.RiskGroup == null;
@@ -218,7 +218,7 @@ namespace Vaccination
         public DateOnly? BirthDate;
         public string Personnummer;
         public string FirstName;
-        public string Lastname;
+        public string LastName;
         public bool? HealthcareWorker;
         public bool? RiskGroup;
         public bool? HasBeenInfected;
@@ -236,7 +236,7 @@ namespace Vaccination
                     BirthDate = ValidateData.Date(personnummer[0]),
                     Personnummer = personnummer[0] + "-" + personnummer[1],
                     FirstName = elements[2],
-                    Lastname = elements[1],
+                    LastName = elements[1],
                     HealthcareWorker = Parse.ToBool(elements[3]),
                     RiskGroup = Parse.ToBool(elements[4]),
                     HasBeenInfected = Parse.ToBool(elements[5])
@@ -435,7 +435,7 @@ namespace Vaccination
                     vaccinationOrder.Add(
                         person.Personnummer +
                         "," +
-                        person.Lastname +
+                        person.LastName +
                         "," +
                         person.FirstName +
                         "," +
