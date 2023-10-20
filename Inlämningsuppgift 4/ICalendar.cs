@@ -19,14 +19,14 @@ namespace ICalendar
         private int simultaneousEvents;//Num of events at a time
         public ICalendar(
             DateTime startDateTime, 
-            TimeOnly endTime = new TimeOnly(08,00), 
+            TimeOnly? endTime = null, 
             int eventTime = 5, 
             int eventsAtATime = 2
             ) 
         {
             currentEvent = startDateTime;
             startOfWorkDay = TimeOnly.FromDateTime(startDateTime);
-            endOfWorkDay = endTime;
+            endOfWorkDay = (TimeOnly)(endTime == null ? new TimeOnly(08, 00) : endTime);
             timePerEvent = eventTime;
             simultaneousEvents = eventsAtATime;
         }
