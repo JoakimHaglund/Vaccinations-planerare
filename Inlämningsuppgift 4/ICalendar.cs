@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vaccination;
 
 namespace ICalendar
 {
@@ -17,16 +18,11 @@ namespace ICalendar
         private TimeOnly endOfWorkDay;//SlutTid
         private int timePerEvent;//Minutes per event
         private int simultaneousEvents;//Num of events at a time
-        public ICalendar(
-            DateTime startDateTime, 
-            TimeOnly? endTime = null, 
-            int eventTime = 5, 
-            int eventsAtATime = 2
-            ) 
+        public ICalendar(DateTime? startDateTime = null, TimeOnly endTime, int eventTime = 5, int eventsAtATime = 2)
         {
-            currentEvent = startDateTime;
-            startOfWorkDay = TimeOnly.FromDateTime(startDateTime);
-            endOfWorkDay = (TimeOnly)(endTime == null ? new TimeOnly(08, 00) : endTime);
+            currentEvent = (DateTime)(startDateTime != null ? startDateTime : DateTime.Now);
+            startOfWorkDay = TimeOnly.FromDateTime(currentEvent);
+            endOfWorkDay = endTime;
             timePerEvent = eventTime;
             simultaneousEvents = eventsAtATime;
         }
@@ -66,6 +62,16 @@ namespace ICalendar
             }
             output.Add("END:VCALENDAR");
             return output.ToArray();
+        }
+        public void GetUserInput()
+        {
+            DateOnly? startDate = ValidateData.ReadDate("tartdatum(YYYY-MM-DD) :");
+            TimeOnly? startTime = ValidateData.ReadTime("Starttid");
+            TimeOnly? endTime = ValidateData.ReadTime("Sluttid");
+            ValidateData.ReadInt("Antal samtidiga vaccinationer:");
+            ValidateData.ReadInt("Minuter per vaccination:");
+            Console.WriteLine("Kalenderfil:");
+            FileIo.ReadFilePath(true);
         }
 
     }
