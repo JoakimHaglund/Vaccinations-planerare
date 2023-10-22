@@ -65,6 +65,44 @@ namespace Vaccination
                 return patient;
             }
         }
+        public static TimeOnly? ReadTime(string question)
+        {
+            while (true)
+            {
+                Console.WriteLine(question);
+                string input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input)) return null;
+
+                try
+                {
+                    var output = TimeOnly.ParseExact(input, "hh:mm");
+                    return output;
+                }
+                catch 
+                {
+                    Console.WriteLine("Felaktingt format! (HH:MM)");
+                } 
+            }
+        }
+        public static DateOnly? ReadDate(string question)
+        {
+            while (true)
+            {
+                Console.WriteLine(question);
+                string input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input)) return null;
+
+                try
+                {
+                    var output = DateOnly.ParseExact(input, "yyyy-MM-dd");
+                    return output;
+                }
+                catch
+                {
+                    Console.WriteLine("Felaktingt format! (HH:MM)");
+                }
+            }
+        }
     }
     public class FileIo
     {
