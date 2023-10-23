@@ -103,15 +103,16 @@ namespace ICalendar
             output.Add("END:VCALENDAR");
             return output.ToArray();
         }
-        public void GetUserInput()
+        public ICalendar GetUserInput()
         {
-            DateOnly? startDate = ValidateData.ReadDate("tartdatum(YYYY-MM-DD) :");
-            TimeOnly? startTime = ValidateData.ReadTime("Starttid");
-            TimeOnly? endTime = ValidateData.ReadTime("Sluttid");
-            ValidateData.ReadInt("Antal samtidiga vaccinationer:");
-            ValidateData.ReadInt("Minuter per vaccination:");
-            Console.WriteLine("Kalenderfil:");
-            FileIo.ReadFilePath(true);
+            DateOnly? startDate = ValidateData.ReadDate("Startdatum (YYYY-MM-DD): ");
+            TimeOnly? startTime = ValidateData.ReadTime("Starttid: ");
+            TimeOnly? endTime = ValidateData.ReadTime("Sluttid: ");
+            int attendents = ValidateData.ReadInt("Antal samtidiga vaccinationer: ");
+            int duration = ValidateData.ReadInt("Minuter per vaccination: ");
+            //string path = FileIo.ReadFilePath(false, "Kalenderfil: ");
+
+            return new ICalendar(startDate, startTime, endTime, duration, attendents);
         }
 
     }
