@@ -11,7 +11,7 @@ namespace Vaccination
 {
     public class ValidateData
     {
-        public static int ReadInt(string question)
+        public static int? ReadInt(string question, bool acceptNull = false)
         {
             while (true)
             {
@@ -25,8 +25,13 @@ namespace Vaccination
                 {
                     Console.WriteLine("Värdet är utanför intervallet!");
                 }
-                catch (FormatException)
+                catch 
                 {
+                    if (acceptNull)
+                    {
+                        return null;
+                    }
+
                     Console.WriteLine("Värdet har fel format, var vänlig ange heltal!");
                 }
             }
@@ -69,7 +74,7 @@ namespace Vaccination
         {
             while (true)
             {
-                Console.WriteLine(question);
+                Console.Write(question);
                 string input = Console.ReadLine();
                 if (string.IsNullOrEmpty(input)) return null;
 
@@ -88,7 +93,7 @@ namespace Vaccination
         {
             while (true)
             {
-                Console.WriteLine(question);
+                Console.Write(question);
                 string input = Console.ReadLine();
                 if (string.IsNullOrEmpty(input)) return null;
 
@@ -452,7 +457,7 @@ namespace Vaccination
         {
             Console.WriteLine("Ändra antal vaccindoser");
             Console.WriteLine("-----------------------");
-            int vaccinationDoses = ValidateData.ReadInt("Ange nytt antal doser: ");
+            int vaccinationDoses = (int)ValidateData.ReadInt("Ange nytt antal doser: ");
             return vaccinationDoses;
         }
         public static bool ChangeVaccinationSetting()
