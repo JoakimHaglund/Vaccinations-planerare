@@ -11,33 +11,32 @@ namespace Icalendar
     public class ICalendar
     {
         private readonly string ProdId = "BatSoupCure";
-        public DateTime Stamp;
         private DateTime currentEvent;
         private TimeOnly startOfWorkDay;//StartTid
         private TimeOnly endOfWorkDay;//SlutTid
         private int duration;//Minutes per event
         private int attendants;//Num of events at a time
-        public ICalendar(DateOnly? startDate, TimeOnly? startTime, TimeOnly? endTime, int eventTime = 5, int eventsAtATime = 2)
+        public ICalendar(DateOnly? startDate, TimeOnly? startOfDay, TimeOnly? endOfday, int eventDuration = 5, int eventAttendants = 2)
         {
-            DateOnly tempDate = (DateOnly)(startDate != null ? startDate : DateOnly.FromDateTime(DateTime.Now).AddDays(7));
-            startOfWorkDay = (TimeOnly)(startTime != null ? startTime : new TimeOnly(08, 00));
+            startOfWorkDay = (TimeOnly)(startOfDay ?? new TimeOnly(08, 00));
+            endOfWorkDay = (TimeOnly)(endOfday ?? new TimeOnly(20, 00));
+
+            var defaultDate = DateOnly.FromDateTime(DateTime.Now).AddDays(7);
+            var tempDate = (DateOnly)(startDate ?? defaultDate);
             currentEvent = tempDate.ToDateTime(startOfWorkDay);
 
-            endOfWorkDay = (TimeOnly)(endTime != null ? endTime : new TimeOnly(20, 00)); 
-            duration = eventTime;
-            attendants = eventsAtATime;
+            duration = eventDuration;
+            attendants = eventAttendants;
         }
-        public ICalendarEvent CreateEvent(DateTime start, DateTime end, int count, string summary)
+        private ICalendarEvent CreateEvent(DateTime start, DateTime end, int count, string summary)
         {
             return new ICalendarEvent
             {
                 Uid = DateTime.Now.ToString("MMmmddsshh") + count + "@BatIsBack.OnTheMenu",
-                Stamp = DateTime.Now,
                 EventStart = start,
                 EventEnd = end,
                 Summary = summary
             };
-
         }
         public List<ICalendarEvent> CreateEvents(string[] input)
         {
@@ -91,10 +90,10 @@ namespace Icalendar
             output.Add("VERSION:2.0");
             output.Add("PRODID:" + ProdId);
             foreach (var evnt in Events)
-            {//Datum hantering behöves
+            {
                 output.Add("BEGIN:VEVENT");
                 output.Add("UID:" + evnt.Uid.Trim());
-                output.Add("DTSTAMP:" + evnt.Stamp.ToString(DateTimeFormat));
+                output.Add("DTSTAMP:" + DateTime.Now.ToString(DateTimeFormat));
                 output.Add("DTSTART:" + evnt.EventStart.ToString(DateTimeFormat));
                 output.Add("DTEND:" + evnt.EventEnd.ToString(DateTimeFormat));
                 output.Add("SUMMARY: Cure chink bat disease");
@@ -122,11 +121,11 @@ namespace Icalendar
     public struct ICalendarEvent
     {
         public string Uid;
-        public DateTime Stamp;
         public DateTime EventStart;
         public DateTime EventEnd;
         public string Summary;
     }
+
     [TestClass]
     public class ProgramTests
     {
