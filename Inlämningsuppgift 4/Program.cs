@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Icalendar;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
 
 namespace Vaccination
 {
@@ -179,21 +180,34 @@ namespace Vaccination
             }
             return null;
         }
-        public static void WriteFile(string path, string[] lines)
+        public static void WriteFile(string path, string[] input)
         {
-            try
+            bool shouldWrite = true;
+            if (input != null && File.Exists(path))
             {
-                File.WriteAllLines(path, lines);
-                Console.WriteLine("Resultatet har sparats i " + path);
+                shouldWrite = Program.AskYesNoQuestion($"{path} finns redan! Vill du skriva över filen?");
             }
-            catch (DirectoryNotFoundException)
+            if (input == null || !shouldWrite)
             {
-                Console.WriteLine("Filsökvägen kunde inte hittas!");
+                Console.WriteLine("Resultatet har inte sparats!");
             }
-            catch
+            else
             {
-                Console.WriteLine("Fel vid filläsning!");
+                try
+                {
+                    File.WriteAllLines(path, input);
+                    Console.WriteLine("Resultatet har sparats i " + path);
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    Console.WriteLine("Filsökvägen kunde inte hittas!");
+                }
+                catch
+                {
+                    Console.WriteLine("Fel vid filläsning!");
+                }
             }
+
         }
     }
     public class Parse
@@ -408,49 +422,16 @@ namespace Vaccination
 
                 var calendarEvents = calendar.CreateEvents(ordredInput);
                 var output = calendar.CreateCalendarOutput(calendarEvents);
-                bool shouldWrite = true;
-                if (output != null)
-                {
-                    if (File.Exists(path))
-                    {
-                        shouldWrite = AskYesNoQuestion($"{path} finns redan! Vill du skriva över filen?");
-                    }
-                    if (shouldWrite)
-                    {
-                        FileIo.WriteFile(path, output);
-                    }
-                }
-
-                if (output == null || !shouldWrite)
-                {
-                    Console.WriteLine("Resultatet har inte sparats!");
-                }
+                FileIo.WriteFile(path, output);
             }
         }
         public static void CreateAndSaveVaccinationOrder(string pathIn, string pathOut, int vaccineDoses, bool vaccinateMinors)
         {
             List<string> input = FileIo.ReadFile(pathIn);
-
-            if (input != null)
+            if(input != null)
             {
-                bool shouldWrite = true;
                 string[] output = CreateVaccinationOrder(input.ToArray(), vaccineDoses, vaccinateMinors);
-                if (output != null)
-                {
-                    if (File.Exists(pathOut))
-                    {
-                        shouldWrite = AskYesNoQuestion($"{pathOut} finns redan! Vill du skriva över filen?");
-                    }
-                    if (shouldWrite)
-                    {
-                        FileIo.WriteFile(pathOut, output);
-                    }
-                }
-
-                if (output == null || !shouldWrite)
-                {
-                    Console.WriteLine("Resultatet har inte sparats!");
-                }
+                FileIo.WriteFile(pathOut, output);
             }
         }
         public static int ChangeVaccinationDoses()
