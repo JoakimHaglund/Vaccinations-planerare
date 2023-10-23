@@ -9,22 +9,22 @@ namespace ICalendar
 {
     public class ICalendar
     {
-        private string ProdId = "BatSoupCure";
-        public List<ICalendarEvent> Events = new List<ICalendarEvent>();
+        private readonly string ProdId = "BatSoupCure";
         public DateTime Stamp;
         private DateTime currentEvent;
-        private Random randomNum = new Random();
         private TimeOnly startOfWorkDay;//StartTid
         private TimeOnly endOfWorkDay;//SlutTid
-        private int timePerEvent;//Minutes per event
-        private int simultaneousEvents;//Num of events at a time
-        public ICalendar(DateTime? startDateTime = null, TimeOnly endTime, int eventTime = 5, int eventsAtATime = 2)
+        private int duration;//Minutes per event
+        private int attendants;//Num of events at a time
+        public ICalendar(DateOnly? startDate, TimeOnly? startTime, TimeOnly? endTime, int eventTime = 5, int eventsAtATime = 2)
         {
-            currentEvent = (DateTime)(startDateTime != null ? startDateTime : DateTime.Now);
-            startOfWorkDay = TimeOnly.FromDateTime(currentEvent);
-            endOfWorkDay = endTime;
-            timePerEvent = eventTime;
-            simultaneousEvents = eventsAtATime;
+            DateOnly tempDate = (DateOnly)(startDate != null ? startDate : DateOnly.FromDateTime(DateTime.Now).AddDays(7));
+            startOfWorkDay = (TimeOnly)(startTime != null ? startTime : new TimeOnly(08, 00));
+            currentEvent = tempDate.ToDateTime(startOfWorkDay);
+
+            endOfWorkDay = (TimeOnly)(endTime != null ? endTime : new TimeOnly(20, 00)); 
+            duration = eventTime;
+            attendants = eventsAtATime;
         }
         public void CreateEvent(DateTime start, DateTime end, string summary)
         {
