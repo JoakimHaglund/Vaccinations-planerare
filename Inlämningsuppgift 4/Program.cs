@@ -5,7 +5,7 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using ICalendar;
+using Icalendar;
 
 namespace Vaccination
 {
@@ -341,6 +341,7 @@ namespace Vaccination
                 int choice = ShowMenu("Vad vill du göra?", new List<string>
                 {
                     "Skapa prioritetsordning",
+                    "Schemalägg vaccinationer",
                     "Ändra antal vaccindoser",
                     "Ändra åldersgräns",
                     "Ändra indatafil",
@@ -355,15 +356,19 @@ namespace Vaccination
                     CreateAndSaveVaccinationOrder(PathIn, PathOut, AvailableVaccineDoses, VaccinateMinors);
                     Console.ReadLine();
                 }
-                else if (choice == 1)
+                else if (choice ==  1)
                 {
-                    AvailableVaccineDoses = ChangeVaccinationDoses();
+                    CreateAndSaveVaccinationCalendar(PathIn, AvailableVaccineDoses, VaccinateMinors);
                 }
                 else if (choice == 2)
                 {
-                    VaccinateMinors = ChangeVaccinationSetting();
+                    AvailableVaccineDoses = ChangeVaccinationDoses();
                 }
                 else if (choice == 3)
+                {
+                    VaccinateMinors = ChangeVaccinationSetting();
+                }
+                else if (choice == 4)
                 {
                     string temp = FileIo.ReadFilePath();
                     if (temp != null)
@@ -371,7 +376,7 @@ namespace Vaccination
                         PathIn = temp;
                     }
                 }
-                else if (choice == 4)
+                else if (choice == 5)
                 {
                     string temp = FileIo.ReadFilePath(false);
                     if (temp != null)
@@ -383,6 +388,37 @@ namespace Vaccination
                 {
                     Console.WriteLine("Live long and prosper!");
                     break;
+                }
+            }
+        }
+        public static void CreateAndSaveVaccinationCalendar(string pathIn, int vaccineDoses, bool vaccinateMinors)
+        {
+            List<string> input = FileIo.ReadFile(pathIn);
+            if (input != null)
+            {
+                string[] ordredInput = CreateVaccinationOrder(input.ToArray(), vaccineDoses, vaccinateMinors);
+
+                var calendar = ICalendar.GetUserInput();
+                string path = FileIo.ReadFilePath(false, "Kalenderfil: ");
+
+                var calendarEvents = calendar.CreateEvents(ordredInput);
+                var output = calendar.CreateCalendarOutput(calendarEvents);
+                bool shouldWrite = true;
+                if (output != null)
+                {
+                    if (File.Exists(path))
+                    {
+                        shouldWrite = AskYesNoQuestion($"{path} finns redan! Vill du skriva över filen?");
+                    }
+                    if (shouldWrite)
+                    {
+                        FileIo.WriteFile(path, output);
+                    }
+                }
+
+                if (output == null || !shouldWrite)
+                {
+                    Console.WriteLine("Resultatet har inte sparats!");
                 }
             }
         }

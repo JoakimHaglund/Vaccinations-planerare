@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vaccination;
 
-namespace ICalendar
+namespace Icalendar
 {
     public class ICalendar
     {
@@ -104,15 +104,17 @@ namespace ICalendar
             output.Add("END:VCALENDAR");
             return output.ToArray();
         }
-        public ICalendar GetUserInput()
+        public static ICalendar GetUserInput()
         {
+            Console.WriteLine("Schemalägg vaccinationer");
+            Console.WriteLine("------------------------");
+            Console.WriteLine("Mata in blankrad för att välja standardvärde.\n");
+
             DateOnly? startDate = ValidateData.ReadDate("Startdatum (YYYY-MM-DD): ");
             TimeOnly? startTime = ValidateData.ReadTime("Starttid: ");
             TimeOnly? endTime = ValidateData.ReadTime("Sluttid: ");
             int attendents = ValidateData.ReadInt("Antal samtidiga vaccinationer: ");
             int duration = ValidateData.ReadInt("Minuter per vaccination: ");
-            //string path = FileIo.ReadFilePath(false, "Kalenderfil: ");
-
             return new ICalendar(startDate, startTime, endTime, duration, attendents);
         }
 
