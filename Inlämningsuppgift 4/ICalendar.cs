@@ -82,21 +82,22 @@ namespace ICalendar
 
             return output;
         }
-        public string[] CreateCalendarOutput()
+        public string[] CreateCalendarOutput(List<ICalendarEvent> Events)
         {
             var output = new List<string>();
-            string DateTimeFormat = "yyyyMMddThhmmss";
+            string DateTimeFormat = "yyyyMMddTHHmmss";
             output.Add("BEGIN:VCALENDAR");
             output.Add("VERSION:2.0");
-            output.Add(ProdId);
+            output.Add("PRODID:" + ProdId);
             foreach (var evnt in Events)
             {//Datum hantering behöves
                 output.Add("BEGIN:VEVENT");
-                output.Add("UID:" + evnt.Uid);
+                output.Add("UID:" + evnt.Uid.Trim());
                 output.Add("DTSTAMP:" + evnt.Stamp.ToString(DateTimeFormat));
                 output.Add("DTSTART:" + evnt.EventStart.ToString(DateTimeFormat));
                 output.Add("DTEND:" + evnt.EventEnd.ToString(DateTimeFormat));
-                output.Add("SUMMARY:" + evnt.Summary);
+                output.Add("SUMMARY: Cure chink bat disease");
+                output.Add("DESCRIPTION:" + evnt.Summary.Trim());
                 output.Add("END:VEVENT");
             }
             output.Add("END:VCALENDAR");
