@@ -80,7 +80,7 @@ namespace Vaccination
                 }
                 catch 
                 {
-                    Console.WriteLine("Felaktingt format! (HH:MM)");
+                    Console.WriteLine("Felaktigt format! (HH:MM)");
                 } 
             }
         }
@@ -99,19 +99,19 @@ namespace Vaccination
                 }
                 catch
                 {
-                    Console.WriteLine("Felaktingt format! (HH:MM)");
+                    Console.WriteLine("Felaktigt format! (HH:MM)");
                 }
             }
         }
     }
     public class FileIo
     {
-        public static string ReadFilePath(bool checkFileExist = true)
+        public static string ReadFilePath(bool checkFileExist = true, string prompt = "Ange filnamn: ")
         {
             while (true)
             {
                 Console.WriteLine("(Ange \"exit\" för att för att avsluta)");
-                Console.Write("Ange filnamn: ");
+                Console.Write(prompt);
                 string path = Console.ReadLine();
                 Console.WriteLine();
 
