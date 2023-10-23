@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -124,5 +125,77 @@ namespace ICalendar
         public DateTime EventEnd;
         public string Summary;
     }
-   
+    [TestClass]
+    public class ProgramTests
+    {
+        [TestMethod]
+        public void test()
+        {
+            var myEventPlanner = new ICalendar(null, null, null, 60, 10);
+            // Arrange health / risk / infection
+            string[] input =
+            {
+                "20100101-2222,lolson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,Sven,2",
+                "20100101-2222,Svennson,henry,2"
+            };
+
+
+            List<ICalendarEvent> myEvents = myEventPlanner.CreateEvents(input);
+
+            // Act
+            string[] output = myEventPlanner.CreateCalendarOutput(myEvents);
+            FileIo.WriteFile("E:\\ffswindows\\Desktop\\testttt.ics", output);
+            foreach (string ou in output)
+            {
+                Console.WriteLine(ou);
+            }
+            // Assert
+            Assert.AreEqual(2, output.Length);
+            Assert.AreEqual("20000101-1111,Svennson,Bob,2", output[0]);
+            Assert.AreEqual("20100101-2222,Svennson,Sven,2", output[1]);
+        }
+
+    }
 }
