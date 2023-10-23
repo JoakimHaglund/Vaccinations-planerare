@@ -26,16 +26,16 @@ namespace ICalendar
             duration = eventTime;
             attendants = eventsAtATime;
         }
-        public void CreateEvent(DateTime start, DateTime end, string summary)
+        public ICalendarEvent CreateEvent(DateTime start, DateTime end, int count, string summary)
         {
-            Events.Add(new ICalendarEvent
+            return new ICalendarEvent
             {
-                Uid = DateTime.Now.ToString("MMmmddsshh") + randomNum.Next(100, 999) + "@BatIsBack.OnTheMenu",
+                Uid = DateTime.Now.ToString("MMmmddsshh") + count + "@BatIsBack.OnTheMenu",
                 Stamp = DateTime.Now,
                 EventStart = start,
                 EventEnd = end,
                 Summary = summary
-            });
+            };
 
         }
         public List<ICalendarEvent> CreateEvents(string[] input)
