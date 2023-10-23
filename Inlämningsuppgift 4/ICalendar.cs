@@ -40,8 +40,47 @@ namespace ICalendar
         }
         public List<ICalendarEvent> CreateEvents(string[] input)
         {
-            // skapa event
-            return null;
+            int count = 0;
+            var output = new List<ICalendarEvent>();
+            var strings = new List<string>();
+            string summary = "";
+            for (int i = 0; i < input.Length; i++)
+            {
+
+                string[] stringBuilder = input[i].Split(',');
+                //Format personnummer for better readabillity
+                string personnummer = stringBuilder[0].Substring(0, 4) + " " + stringBuilder[0].Substring(4, 2) + " " + stringBuilder[0].Substring(6);
+                summary += "Namn: " + stringBuilder[2] + " " + stringBuilder[1] + ". Prn: " + personnummer;
+
+                if ((i + 1) % attendants == 0 || i == input.Length - 1)
+                {
+                    strings.Add(summary);
+                    summary = "";
+                }
+                else
+                {
+                    summary += "\\n";
+                }
+            }
+            foreach (string inputItem in strings)
+            {
+                var endOfEvent = currentEvent.AddMinutes(duration);
+                if (endOfEvent.Hour > endOfWorkDay.Hour || endOfEvent.Hour == endOfWorkDay.Hour && endOfEvent.Minute > endOfWorkDay.Minute)
+                {
+                    //Get hours left of day
+                    int HoursLeftInDay = 24 - currentEvent.Hour;
+                    //Set starting hour and minute of next day
+                    currentEvent = currentEvent.AddHours(HoursLeftInDay + startOfWorkDay.Hour);
+                    currentEvent = currentEvent.AddMinutes(-currentEvent.Minute + startOfWorkDay.Minute);
+
+                    endOfEvent = currentEvent.AddMinutes(duration);
+                }
+                output.Add(CreateEvent(currentEvent, endOfEvent, count, inputItem));
+                currentEvent = endOfEvent;
+                count++;
+            }
+
+            return output;
         }
         public string[] CreateCalendarOutput()
         {
