@@ -10,13 +10,13 @@ namespace Icalendar
 {
     public class ICalendar
     {
-        private readonly string ProdId = "BatSoupCure";
+        private readonly string ProdId = "VaccinationBooking";
         private DateTime currentEvent;
         private TimeOnly startOfWorkDay;//StartTid
         private TimeOnly endOfWorkDay;//SlutTid
         private int duration;//Minutes per event
         private int attendants;//Num of events at a time
-        public ICalendar(DateOnly? startDate, TimeOnly? startOfDay, TimeOnly? endOfday, int eventDuration = 5, int eventAttendants = 2)
+        public ICalendar(DateOnly? startDate, TimeOnly? startOfDay, TimeOnly? endOfday, int? eventDuration, int? eventAttendants)
         {
             startOfWorkDay = (TimeOnly)(startOfDay ?? new TimeOnly(08, 00));
             endOfWorkDay = (TimeOnly)(endOfday ?? new TimeOnly(20, 00));
@@ -25,8 +25,8 @@ namespace Icalendar
             var tempDate = (DateOnly)(startDate ?? defaultDate);
             currentEvent = tempDate.ToDateTime(startOfWorkDay);
 
-            duration = eventDuration;
-            attendants = eventAttendants;
+            duration = eventDuration ?? 5;
+            attendants = eventAttendants ?? 2;
         }
         private ICalendarEvent CreateEvent(DateTime start, DateTime end, int count, string summary)
         {
@@ -92,7 +92,7 @@ namespace Icalendar
             foreach (var evnt in Events)
             {
                 output.Add("BEGIN:VEVENT");
-                output.Add("UID:" + evnt.Uid.Trim());
+                output.Add("UID:" + evnt.Uid);
                 output.Add("DTSTAMP:" + DateTime.Now.ToString(DateTimeFormat));
                 output.Add("DTSTART:" + evnt.EventStart.ToString(DateTimeFormat));
                 output.Add("DTEND:" + evnt.EventEnd.ToString(DateTimeFormat));
@@ -112,8 +112,8 @@ namespace Icalendar
             DateOnly? startDate = ValidateData.ReadDate("Startdatum (YYYY-MM-DD): ");
             TimeOnly? startTime = ValidateData.ReadTime("Starttid: ");
             TimeOnly? endTime = ValidateData.ReadTime("Sluttid: ");
-            int attendents = ValidateData.ReadInt("Antal samtidiga vaccinationer: ");
-            int duration = ValidateData.ReadInt("Minuter per vaccination: ");
+            int? attendents = ValidateData.ReadInt("Antal samtidiga vaccinationer: ", true);
+            int? duration = ValidateData.ReadInt("Minuter per vaccination: ", true);
             return new ICalendar(startDate, startTime, endTime, duration, attendents);
         }
 
