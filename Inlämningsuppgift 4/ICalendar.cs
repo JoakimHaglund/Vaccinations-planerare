@@ -143,9 +143,21 @@ namespace Icalendar
 
             DateOnly? startDate = ValidateData.ReadDate("Startdatum (YYYY-MM-DD): ");
             TimeOnly? startTime = ValidateData.ReadTime("Starttid: ");
-            TimeOnly? endTime = ValidateData.ReadTime("Sluttid: ");
+            TimeOnly? endTime = ValidateData.ReadTime("Sluttid: ", startTime);
             int? attendents = ValidateData.ReadInt("Antal samtidiga vaccinationer: ", true);
             int? duration = ValidateData.ReadInt("Minuter per vaccination: ", true);
+
+            //Get valid TimeOnlys to be able to compare lenght of workshift with an event duration
+            var tempStartTime = (TimeOnly)(startTime ?? new TimeOnly(08, 00));
+            var tempStopTime = (TimeOnly)(startTime ?? new TimeOnly(20, 00));
+
+            int possibleLenght = (int)(tempStopTime - tempStartTime).TotalMinutes;
+            if (duration != null && duration > possibleLenght)
+            {
+                Console.WriteLine("Vaccinationen tar längre tid än arbetstiden!");
+                duration = ValidateData.ReadInt("Minuter per vaccination: ", true);
+            }
+
             return new ICalendar(startDate, startTime, endTime, duration, attendents);
         }
 
