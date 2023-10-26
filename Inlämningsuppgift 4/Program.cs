@@ -225,7 +225,6 @@ namespace Vaccination
             if (date.Contains('-'))
             {
                 personnummer = date.Split('-').ToList();
-
             }
             else
             {
