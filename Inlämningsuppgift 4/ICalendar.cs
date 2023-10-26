@@ -35,7 +35,7 @@ namespace Icalendar
         {
             return new ICalendarEvent
             {
-                Uid = DateTime.Now.ToString("MMmmddsshh") + count + "@BatIsBack.OnTheMenu",
+                Uid = DateTime.Now.ToString("MMmmddsshh") + count + "@BestVaccinationBooking.Program",
                 EventStart = start,
                 EventEnd = end,
                 Summary = summary
@@ -128,7 +128,7 @@ namespace Icalendar
                 output.Add("DTSTAMP:" + DateTime.Now.ToString(DateTimeFormat));
                 output.Add("DTSTART:" + evnt.EventStart.ToString(DateTimeFormat));
                 output.Add("DTEND:" + evnt.EventEnd.ToString(DateTimeFormat));
-                output.Add("SUMMARY: Cure chink bat disease");
+                output.Add("SUMMARY:Vaccination");
                 output.Add("DESCRIPTION:" + evnt.Summary.Trim());
                 output.Add("END:VEVENT");
             }
