@@ -113,7 +113,7 @@ namespace Vaccination
                 }
                 catch
                 {
-                    Console.WriteLine("Felaktigt format! (HH:MM)");
+                    Console.WriteLine("Felaktigt format! (År - Månad - Dag)");
                 }
             }
         }
@@ -262,6 +262,7 @@ namespace Vaccination
             {
                 return input == "1";
             }
+
             return null;
         }
         public static List<string> ToList(string input)

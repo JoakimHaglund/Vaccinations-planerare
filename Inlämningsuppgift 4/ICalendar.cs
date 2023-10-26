@@ -26,6 +26,7 @@ namespace Icalendar
             var defaultDate = DateOnly.FromDateTime(DateTime.Now).AddDays(7);
             var tempDate = (DateOnly)(startDate ?? defaultDate);
             CurrentEvent = tempDate.ToDateTime(StartOfWorkDay);
+
             //if the value is nonsens it's set to minimum viable value
             //and if the value is null it's set to the default value
             Duration = (eventDuration < 0) ? 0 : eventDuration ?? 5;
@@ -43,7 +44,6 @@ namespace Icalendar
         }
         public List<ICalendarEvent> CreateEvents(string[] input)
         {
-            
             int count = 0;
             var output = new List<ICalendarEvent>();
             var strings = new List<string>();
@@ -191,7 +191,7 @@ namespace Icalendar
             var date = new DateOnly(2020, 10, 10);
             var now = DateTime.Now;
             var myEventPlanner = new ICalendar(date, null, null, 60, 1);
-            // Arrange health / risk / infection
+
             string[] input =
             {
                 "20100101-2222,Exempelson,Sven,2",
@@ -234,7 +234,7 @@ namespace Icalendar
             var date = new DateOnly(2020, 10, 10);
             var now = DateTime.Now;
             var myEventPlanner = new ICalendar(date, null, null, 60, 1);
-            // Arrange health / risk / infection
+
             string[] input =
             {
                 ",Exempelson,Sven,2",
@@ -253,7 +253,7 @@ namespace Icalendar
             var date = new DateOnly(2020, 10, 10);
             var now = DateTime.Now;
             var myEventPlanner = new ICalendar(date, null, null, 60, 1);
-            // Arrange health / risk / infection
+
             string[] input =
             {
                 "Exempelson,Sven,2"
