@@ -71,7 +71,7 @@ namespace Vaccination
                 return patient;
             }
         }
-        public static TimeOnly? ReadTime(string question)
+        public static TimeOnly? ReadTime(string question, TimeOnly? CanNotBeLessThan = null)
         {
             while (true)
             {
@@ -81,8 +81,16 @@ namespace Vaccination
 
                 try
                 {
-                    var output = TimeOnly.ParseExact(input, "hh:mm");
+                    var output = TimeOnly.ParseExact(input, "HH:mm");
+                    if (CanNotBeLessThan != null && output < CanNotBeLessThan)
+                    {
+                        throw new ArgumentException("Input value is less than required value");
+                    }
                     return output;
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("Sluttiden är lägre än starttiden!");
                 }
                 catch 
                 {
