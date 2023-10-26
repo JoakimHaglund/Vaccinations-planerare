@@ -26,7 +26,8 @@ namespace Icalendar
             var defaultDate = DateOnly.FromDateTime(DateTime.Now).AddDays(7);
             var tempDate = (DateOnly)(startDate ?? defaultDate);
             CurrentEvent = tempDate.ToDateTime(StartOfWorkDay);
-
+            //if the value is nonsens it's set to minimum viable value
+            //and if the value is null it's set to the default value
             Duration = (eventDuration < 0) ? 0 : eventDuration ?? 5;
             Attendants = (eventAttendants < 1) ? 1 : eventAttendants ?? 2;
         }
