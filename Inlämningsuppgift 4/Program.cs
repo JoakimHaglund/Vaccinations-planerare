@@ -117,24 +117,44 @@ namespace Vaccination
                 }
             }
         }
+        public static string TrimAtLastChar(string input, char chr)
+        {
+            int last = input.LastIndexOf(chr);
+            if (last != -1)
+            {
+                return input.Substring(0, last);
+            }
+            else
+            {
+                return input;
+            }
+        }
     }
     public class FileIo
     {
-        public static string ReadFilePath(bool checkFileExist = true, string prompt = "Ange filnamn: ")
+        public static string ReadFilePath(string fileFormat, bool checkFileExist = true, string prompt = "Ange filnamn: ")
         {
             while (true)
             {
-                Console.WriteLine("(Ange \"exit\" för att för att avsluta)");
+                
                 Console.Write(prompt);
                 string path = Console.ReadLine();
-                Console.WriteLine();
-
-                int last = path.LastIndexOf('\\');
                 string directoryPath = "";
 
-                if (last != -1)
+                if (string.IsNullOrEmpty(path))
                 {
-                    directoryPath = path.Substring(0, last);
+                    return null;
+                }
+                int lastDot = path.LastIndexOf('.');
+                if (lastDot != -1)
+                {
+                    path = path.Substring(0, lastDot) + "." + fileFormat;
+                }
+
+                int lastSlash = path.LastIndexOf('\\');
+                if (lastSlash != -1)
+                {
+                    directoryPath = path.Substring(0, lastSlash);
                 }
                 else
                 {
@@ -160,10 +180,6 @@ namespace Vaccination
                 else
                 {
                     Console.WriteLine("Katalogen kunde inte hittas!");
-                }
-                if (path.ToLower() == "exit")
-                {
-                    return null;
                 }
             }
         }
@@ -397,7 +413,7 @@ namespace Vaccination
                 }
                 else if (choice == 4)
                 {
-                    string temp = FileIo.ReadFilePath();
+                    string temp = FileIo.ReadFilePath("csv");
                     if (temp != null)
                     {
                         PathIn = temp;
@@ -405,7 +421,7 @@ namespace Vaccination
                 }
                 else if (choice == 5)
                 {
-                    string temp = FileIo.ReadFilePath(false);
+                    string temp = FileIo.ReadFilePath("csv",false);
                     if (temp != null)
                     {
                         PathOut = temp;
@@ -426,7 +442,7 @@ namespace Vaccination
                 string[] ordredInput = CreateVaccinationOrder(input.ToArray(), vaccineDoses, vaccinateMinors);
 
                 var calendar = ICalendar.GetUserInput();
-                string path = FileIo.ReadFilePath(false, "Kalenderfil: ");
+                string path = FileIo.ReadFilePath("ics", false, "Kalenderfil: ");
 
                 var calendarEvents = calendar.CreateEvents(ordredInput);
                 var output = calendar.CreateCalendarOutput(calendarEvents);
