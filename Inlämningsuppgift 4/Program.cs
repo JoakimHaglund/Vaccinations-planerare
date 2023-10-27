@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using Icalendar;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
+using System.Runtime.ConstrainedExecution;
 
 namespace Vaccination
 {
@@ -145,16 +146,13 @@ namespace Vaccination
                 {
                     return null;
                 }
-                int lastDot = path.LastIndexOf('.');
-                if (lastDot != -1)
-                {
-                    path = path.Substring(0, lastDot) + "." + fileFormat;
-                }
-
+                
+                path = ValidateData.TrimAtLastChar(path, '.') + "." + fileFormat;
+                
                 int lastSlash = path.LastIndexOf('\\');
-                if (lastSlash != -1)
+                if (path.Contains("\\"))
                 {
-                    directoryPath = path.Substring(0, lastSlash);
+                    directoryPath = ValidateData.TrimAtLastChar(path, '\\');
                 }
                 else
                 {
