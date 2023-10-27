@@ -46,7 +46,7 @@ namespace Icalendar
         {
             int count = 0;
             var output = new List<ICalendarEvent>();
-            var strings = new List<string>();
+            var summaries = new List<string>();
             string summary = "";
 
             if (input == null)
@@ -56,7 +56,6 @@ namespace Icalendar
 
             for (int i = 0; i < input.Length; i++)
             {
-
                 string[] values = input[i].Split(',');
 
                 if (values.Length != 4)
@@ -70,7 +69,7 @@ namespace Icalendar
                     string personnummer = values[0].Substring(0, 4) + " " + 
                         values[0].Substring(4, 2) + " " + values[0].Substring(6);
 
-                    summary += "Patient: " + values[2] + " " + values[1] + " - " + personnummer;
+                    summary += values[2] + " " + values[1] + " - " + personnummer;
                 }
                 catch 
                 {
@@ -79,7 +78,7 @@ namespace Icalendar
 
                 if ((i + 1) % Attendants == 0 || i == input.Length - 1)
                 {
-                    strings.Add(summary);
+                    summaries.Add(summary);
                     summary = "";
                 }
                 else
@@ -87,7 +86,7 @@ namespace Icalendar
                     summary += "\\n";
                 }
             }
-            foreach (string inputItem in strings)
+            foreach (string inputItem in summaries)
             {
                 var endOfEvent = CurrentEvent.AddMinutes(Duration);
                 bool overEndOfWorkMinute = endOfEvent.Hour == EndOfWorkDay.Hour && endOfEvent.Minute > EndOfWorkDay.Minute;
