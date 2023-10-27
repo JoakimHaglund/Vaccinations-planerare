@@ -66,12 +66,12 @@ namespace Icalendar
                 try
                 {
                     //Format personnummer for better readabillity (Format: YYYY MM DD XXXX)
-                    string personnummer = values[0].Substring(0, 4) + " " + 
+                    string personnummer = values[0].Substring(0, 4) + " " +
                         values[0].Substring(4, 2) + " " + values[0].Substring(6);
 
                     summary += values[2] + " " + values[1] + " - " + personnummer;
                 }
-                catch 
+                catch
                 {
                     return null;
                 }
@@ -177,7 +177,7 @@ namespace Icalendar
         {
             var myEventPlanner = new ICalendar(null, null, null, null, null);
             string[] input = null;
-            
+
             List<ICalendarEvent> output = myEventPlanner.CreateEvents(input);
 
             // Assert
@@ -240,7 +240,7 @@ namespace Icalendar
                 "20100101-2222,,Sven,2"
             };
             var expectedDateTime = new DateTime(2020, 10, 10, 8, 0, 0);
-           
+
             List<ICalendarEvent> output = myEventPlanner.CreateEvents(input);
 
             // Assert
@@ -276,7 +276,7 @@ namespace Icalendar
             Assert.AreEqual(expectedDateTime, testEventPlanner.CurrentEvent);
             Assert.AreEqual(new TimeOnly(8, 0), testEventPlanner.StartOfWorkDay);
             Assert.AreEqual(new TimeOnly(20, 0), testEventPlanner.EndOfWorkDay);
-            Assert.AreEqual(5 , testEventPlanner.Duration);
+            Assert.AreEqual(5, testEventPlanner.Duration);
             Assert.AreEqual(2, testEventPlanner.Attendants);
         }
 

@@ -27,7 +27,7 @@ namespace Vaccination
                 {
                     Console.WriteLine("Värdet är utanför intervallet!");
                 }
-                catch 
+                catch
                 {
                     if (acceptNull)
                     {
@@ -98,10 +98,10 @@ namespace Vaccination
                 {
                     Console.WriteLine("Sluttiden är lägre än starttiden!");
                 }
-                catch 
+                catch
                 {
                     Console.WriteLine("Felaktigt format! (HH:MM)");
-                } 
+                }
             }
         }
         public static DateOnly? ReadDate(string question)
@@ -130,7 +130,7 @@ namespace Vaccination
         {
             while (true)
             {
-                
+
                 Console.Write(prompt);
                 string path = Console.ReadLine();
                 string directoryPath = "";
@@ -139,9 +139,9 @@ namespace Vaccination
                 {
                     return null;
                 }
-                
+
                 path = Parse.TrimAtLastChar(path, '.') + "." + fileFormat;
-                
+
                 int lastSlash = path.LastIndexOf('\\');
                 if (path.Contains("\\"))
                 {
@@ -256,7 +256,7 @@ namespace Vaccination
             {
                 personnummer[0] = "19" + personnummer[0];
             }
-            else if(personnummer[0].Length < 6 || personnummer[0].Length > 8)
+            else if (personnummer[0].Length < 6 || personnummer[0].Length > 8)
             {
                 return null;
             }
@@ -367,10 +367,10 @@ namespace Vaccination
         public static void Main()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-          
+
             string PathIn = @"C:\Windows\Temp\People.csv";
             string PathOut = @"C:\Windows\Temp\Vaccinations.csv";
-            
+
             bool VaccinateMinors = false;
             int AvailableVaccineDoses = 0;
 
@@ -394,7 +394,7 @@ namespace Vaccination
                     "Ändra utdatafil",
                     "Avsluta"
                 });
-                
+
                 Console.WriteLine();
 
                 if (choice == 0)
@@ -402,7 +402,7 @@ namespace Vaccination
                     CreateAndSaveVaccinationOrder(PathIn, PathOut, AvailableVaccineDoses, VaccinateMinors);
                     Console.ReadLine();
                 }
-                else if (choice ==  1)
+                else if (choice == 1)
                 {
                     CreateAndSaveVaccinationCalendar(PathIn, AvailableVaccineDoses, VaccinateMinors);
                 }
@@ -424,7 +424,7 @@ namespace Vaccination
                 }
                 else if (choice == 5)
                 {
-                    string temp = FileIo.ReadFilePath("csv",false);
+                    string temp = FileIo.ReadFilePath("csv", false);
                     if (temp != null)
                     {
                         PathOut = temp;
@@ -455,7 +455,7 @@ namespace Vaccination
         public static void CreateAndSaveVaccinationOrder(string pathIn, string pathOut, int vaccineDoses, bool vaccinateMinors)
         {
             List<string> input = FileIo.ReadFile(pathIn);
-            if(input != null)
+            if (input != null)
             {
                 string[] output = CreateVaccinationOrder(input.ToArray(), vaccineDoses, vaccinateMinors);
                 FileIo.WriteFile(pathOut, output);
