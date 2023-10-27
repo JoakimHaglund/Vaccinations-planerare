@@ -123,18 +123,6 @@ namespace Vaccination
                 }
             }
         }
-        public static string TrimAtLastChar(string input, char chr)
-        {
-            int last = input.LastIndexOf(chr);
-            if (last != -1)
-            {
-                return input.Substring(0, last);
-            }
-            else
-            {
-                return input;
-            }
-        }
     }
     public class FileIo
     {
@@ -152,12 +140,12 @@ namespace Vaccination
                     return null;
                 }
                 
-                path = ValidateData.TrimAtLastChar(path, '.') + "." + fileFormat;
+                path = Parse.TrimAtLastChar(path, '.') + "." + fileFormat;
                 
                 int lastSlash = path.LastIndexOf('\\');
                 if (path.Contains("\\"))
                 {
-                    directoryPath = ValidateData.TrimAtLastChar(path, '\\');
+                    directoryPath = Parse.TrimAtLastChar(path, '\\');
                 }
                 else
                 {
@@ -295,6 +283,18 @@ namespace Vaccination
             else
             {
                 return null;
+            }
+        }
+        public static string TrimAtLastChar(string input, char chr)
+        {
+            int last = input.LastIndexOf(chr);
+            if (last != -1)
+            {
+                return input.Substring(0, last);
+            }
+            else
+            {
+                return input;
             }
         }
     }
