@@ -202,14 +202,14 @@ namespace Icalendar
             {
                 new ICalendarEvent
                 {
-                    Uid = now.ToString("MMmmddsshh") + 0 + "@BatIsBack.OnTheMenu",
+                    Uid = now.ToString("MMmmddsshh") + 0 + "@BestVaccinationBooking.Program",
                     EventStart = expectedDateTime,
                     EventEnd = expectedDateTime.AddMinutes(60),
                     Summary = "Patient: Sven Exempelson - 2010 01 01-2222"
                 },
                 new ICalendarEvent
                 {
-                    Uid = now.ToString("MMmmddsshh") + 1 + "@BatIsBack.OnTheMenu",
+                    Uid = now.ToString("MMmmddsshh") + 1 + "@BestVaccinationBooking.Program",
                     EventStart = expectedDateTime.AddMinutes(60),
                     EventEnd = expectedDateTime.AddMinutes(120),
                     Summary = "Patient: Sven Exempelson - 2010 01 01-2222"
