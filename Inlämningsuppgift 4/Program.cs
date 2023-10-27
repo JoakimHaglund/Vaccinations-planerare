@@ -52,6 +52,11 @@ namespace Vaccination
         }
         public static Patient CheckForNull(Patient patient)
         {
+            if (patient == null)
+            {
+                return null;
+            }
+
             bool isNull = false;
 
             isNull = string.IsNullOrEmpty(patient.Personnummer);
